@@ -26,8 +26,9 @@ build/
 .idea/
 *.swp
 
-# OMC runtime
-.omc/state/
-.omc/logs/
-.omc/research/
-.omc/sessions/
+# OMC runtime (전체 제외 — 메모리·세션·PRD·계약 등 로컬 협업 산출물)
+.omc/
+.vercel
+
+# Supabase CLI 임시 산출물 (link / db push 후 생성)
+supabase/.temp/

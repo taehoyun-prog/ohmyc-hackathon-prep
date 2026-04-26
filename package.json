@@ -1,0 +1,28 @@
+{
+  "name": "ohmyc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ohmyc — 대중의 첫 캐릭터 에이전트. 페어 첫 만남 60초 데모 (해커톤 MVP V0.1)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "@ai-sdk/google": "^1.1.0",
+    "ai": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}

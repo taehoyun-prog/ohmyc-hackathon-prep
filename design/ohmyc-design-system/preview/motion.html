@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.av{position:relative;width:120px;height:120px;display:flex;align-items:center;justify-content:center;animation:breathe 3.5s ease-in-out infinite}
+.av .core{width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#F5F5F7 60%,#D2D2D7 100%)}
+.av .halo{position:absolute;inset:-12px;border-radius:50%;background:radial-gradient(circle,rgba(255,133,82,.35) 0%,rgba(255,133,82,0) 65%);filter:blur(8px)}
+@keyframes pulseDemo{0%,100%{transform:scale(1)}50%{transform:scale(.97)}}
+.btn-pulse{animation:pulseDemo 1.6s ease-in-out infinite;background:#FF8552;color:#fff;font-weight:600;border-radius:980px;padding:14px 28px;border:none;font-size:17px}
+</style></head><body>
+<div class="card dark" style="padding:32px;display:flex;align-items:center;gap:48px;justify-content:center">
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px"><div class="av"><div class="halo"></div><div class="core"></div></div><div class="mono" style="color:#fff">Breathe · 1.00↔1.02 · 3.5s</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px"><button class="btn-pulse">페어링하기</button><div class="mono" style="color:#fff">Pulse · 1.00→0.97 · 600ms</div></div>
+</div>
+</body></html>

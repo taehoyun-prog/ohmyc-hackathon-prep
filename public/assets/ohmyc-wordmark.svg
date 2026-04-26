@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label="ohmyc">
+  <defs>
+    
+  </defs>
+  
+  <circle cx="28" cy="48" r="13" fill="#1d1d1f"></circle>
+  <circle cx="56" cy="48" r="9" fill="#FF8552"></circle>
+  
+  <text class="ohmyc-wordmark" x="80" y="64">ohmyc</text>
+</svg>

@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   ohmyc — colors & type tokens
+   디자인 시스템 1차 SSOT: design/ohmyc-design-system/colors_and_type.css
+   Pretendard 폰트는 next/font/local 로 로드 (app/fonts/pretendard.ts)
+   ============================================================ */
+
+:root {
+  /* ----- ohmyc accent (single brand color, do not add more) ---- */
+  --omc-tint:           #FF8552;
+  --omc-tint-deep:      #E96A37;
+  --omc-tint-soft:      #FFD9C5;
+  --omc-tint-paper:     #FFF1E8;
+
+  /* ----- neutral foundation ------------------------------------ */
+  --fg-1:               #1D1D1F;
+  --fg-2:               #6E6E73;
+  --fg-3:               #86868B;
+  --fg-on-dark:         #F5F5F7;
+  --fg-on-dark-2:       rgba(245,245,247,0.72);
+  --fg-on-dark-3:       rgba(245,245,247,0.48);
+
+  --bg-canvas-light:    #F5F5F7;
+  --bg-canvas-white:    #FFFFFF;
+  --bg-canvas-dark:     #000000;
+  --bg-graphite-a:      #272729;
+  --bg-graphite-b:      #262629;
+  --bg-graphite-c:      #28282B;
+  --bg-graphite-d:      #2A2A2C;
+
+  --border-soft:        #D2D2D7;
+  --border-mid:         #86868B;
+  --border-on-dark:     rgba(255,255,255,0.12);
+
+  /* ----- type families (Pretendard via next/font/local) -------- */
+  --font-display: var(--font-pretendard), -apple-system,
+                  BlinkMacSystemFont, "Apple SD Gothic Neo",
+                  "Helvetica Neue", Arial, sans-serif;
+  --font-text:    var(--font-pretendard), -apple-system,
+                  BlinkMacSystemFont, "Apple SD Gothic Neo",
+                  "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ----- type scale -------------------------------------------- */
+  --t-hero-xl: 80px;  --lh-hero-xl: 1.02;  --tr-hero-xl: -1.2px;
+  --t-hero-l:  56px;  --lh-hero-l:  1.07;  --tr-hero-l:  -0.6px;
+  --t-section: 48px;  --lh-section: 1.08;  --tr-section: -0.4px;
+  --t-product: 40px;  --lh-product: 1.10;  --tr-product: -0.3px;
+  --t-feature: 32px;  --lh-feature: 1.12;  --tr-feature: -0.2px;
+  --t-promo:   28px;  --lh-promo:   1.18;  --tr-promo:   -0.15px;
+  --t-card-title: 24px; --lh-card:   1.20;  --tr-card:   -0.1px;
+  --t-utility: 21px;  --lh-utility: 1.30;  --tr-utility: -0.05px;
+  --t-subhead: 19px;  --lh-subhead: 1.32;  --tr-subhead: -0.02px;
+  --t-body:    17px;  --lh-body:    1.55;  --tr-body:    0;
+  --t-control: 14px;  --lh-control: 1.40;  --tr-control: 0;
+  --t-micro:   12px;  --lh-micro:   1.40;  --tr-micro:   0.02px;
+  --t-legal:   10px;  --lh-legal:   1.40;  --tr-legal:   0.04px;
+
+  /* ----- weight ladder ----------------------------------------- */
+  --w-light:    300;
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;
+  --w-bold:     700;
+
+  /* ----- radius tiers ------------------------------------------ */
+  --r-tag:       5px;
+  --r-control:  10px;
+  --r-card:     16px;
+  --r-card-lg:  22px;
+  --r-module:   28px;
+  --r-spotlight: 36px;
+  --r-capsule: 980px;
+  --r-circle:    50%;
+
+  /* ----- spacing ----------------------------------------------- */
+  --s-1:  2px;  --s-2:  4px;  --s-3:  6px;  --s-4:  8px;
+  --s-5: 12px;  --s-6: 14px;  --s-7: 17px;  --s-8: 20px;
+  --s-9: 24px;  --s-10:32px;  --s-11:40px;  --s-12:56px;  --s-13: 80px;
+
+  /* ----- elevation --------------------------------------------- */
+  --el-1: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+  --el-2: 0 4px 12px rgba(0,0,0,0.08);
+  --el-3: 0 12px 32px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+  --el-warm: 0 10px 28px rgba(255,133,82,0.18);
+
+  /* ----- motion ------------------------------------------------ */
+  --ease-soft:    cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-pulse:    600ms;
+  --dur-breathe:  3500ms;
+
+  /* ----- focus ring -------------------------------------------- */
+  --focus-ring: 0 0 0 3px rgba(255,133,82,0.35);
+}
+
+/* ============================================================
+   Semantic element styles
+   ============================================================ */
+
+html, body {
+  background: var(--bg-canvas-light);
+  color: var(--fg-1);
+  font-family: var(--font-text);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   Two named motion gestures — Breathe + Pulse.
+   추가 모션 만들지 말 것 (가드레일).
+   ============================================================ */
+
+@keyframes omc-breathe {
+  0%, 100% { transform: scale(1.000); }
+  50%      { transform: scale(1.020); }
+}
+
+@keyframes omc-pulse {
+  0%   { transform: scale(1.000); }
+  50%  { transform: scale(0.970); }
+  100% { transform: scale(1.000); }
+}
+
+.omc-breathe {
+  animation: omc-breathe var(--dur-breathe) var(--ease-soft) infinite;
+}
+
+.omc-pulse-on-tap {
+  transition: filter 100ms var(--ease-soft), transform 80ms var(--ease-soft);
+}
+
+.omc-pulse-on-tap:active:not(:disabled) {
+  animation: omc-pulse var(--dur-pulse) var(--ease-soft);
+  filter: brightness(0.88);
+}
+
+.omc-pulse-on-tap:hover:not(:disabled) {
+  filter: brightness(0.96);
+}

@@ -33,7 +33,7 @@ ls -la  # ONE-PAGER.md, HACKATHON-PITCH-DECK-TEMPLATE.md, _context/ 확인
 ```bash
 npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --use-npm --yes --import-alias "@/*"
 npx getdesign@latest add apple
-echo "ANTHROPIC_API_KEY=" > .env.local
+echo "GEMINI_API_KEY=" > .env.local  # 4개 로테이션 시 GEMINI_API_KEY_2~4 추가
 ```
 
 ### Step 3. GitHub 푸시
@@ -80,9 +80,9 @@ Claude Code 입력창에 순서대로:
 
 **답변 가이드**:
 - 모르면 → "추천해줘"
-- DB → "없음, sessionStorage만"
-- 인증 → "없음, 익명"
-- LLM → "Claude Haiku (claude-haiku-4-5)"
+- DB → "Supabase 익명 인증 (sessionStorage는 anon_user_id 캐시 용도만)"
+- 인증 → "Supabase Anonymous Sign-In"
+- LLM → "Google Gemini 3 Flash (gemini-3-flash)"
 - 6번째 질문쯤: **"여기서 끝. PRD 확정해줘."**
 
 ### Step 6. Ralph (실행 모드 4번 선택)
@@ -103,7 +103,7 @@ Claude Code 입력창에 순서대로:
 
 ```bash
 vercel
-vercel env add ANTHROPIC_API_KEY  # 키 입력
+vercel env add GEMINI_API_KEY  # 키 입력 (4개 로테이션이면 GEMINI_API_KEY_2~4도 추가)
 vercel --prod
 ```
 
@@ -134,7 +134,7 @@ HACKATHON-PITCH-DECK.md 기반으로 5분짜리 발표 스크립트를 슬라이
 | Deep Interview 30분 넘게 안 끝남 | "여기서 끝. PRD 확정" 강제 종료 |
 | Ralph 같은 에러 5분 반복 | `/oh-my-claudecode:cancel` → 에러 복사 → 사람이 같이 디버깅 → 재시작 |
 | Vercel 배포 실패 | 로컬 화면 30초 영상 녹화로 백업 |
-| API 키 안 먹음 | `vercel env add` 후 `vercel --prod` 재배포 |
+| API 키 안 먹음 | `vercel env add GEMINI_API_KEY` 후 `vercel --prod` 재배포 |
 | 시간 부족 | **기능 빼는 게 답.** 60초 시연 1장면만 살리기 |
 | 데모 시간 직전 안 됨 | 미리 녹화한 영상 틀기. 당황 NO. |
 

@@ -1,0 +1,212 @@
+{
+  "version": "1.0",
+  "interview_id": "ohmyc-mvp-20260426",
+  "task": "ohmyc 해커톤 MVP V0.1 — 5-screen 페어 첫 만남 + Supabase 영속화 + Gemini 결정타",
+  "spec_path": ".omc/specs/deep-interview-ohmyc-mvp.md",
+  "deadline_kst": "2026-04-26T18:00:00+09:00",
+  "track": "Business & Applications",
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "Phase 0 — 인프라 셋업 (Next.js 15 + Supabase + Vercel)",
+      "priority": 1,
+      "passes": false,
+      "acceptanceCriteria": [
+        "package.json 생성 + Next.js 15 App Router + TypeScript + Tailwind CSS 의존성 설치 완료",
+        "next.config.ts / tsconfig.json / tailwind.config.ts / postcss.config.mjs 존재",
+        "app/ 디렉토리 + app/layout.tsx + app/page.tsx + app/globals.css 존재",
+        ".env.local 작성 (GEMINI_API_KEY 4개 + NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_ANON_KEY)",
+        "Supabase 프로젝트 생성 + pair_sessions·todos 테이블 마이그레이션 적용",
+        "Vercel CLI로 프로젝트 연결 (vercel link) 완료",
+        "npm run dev 로 localhost:3000 정상 부팅"
+      ]
+    },
+    {
+      "id": "US-002",
+      "title": "Phase 0.5 — 디자인 시스템 통합 (Pretendard + colors_and_type.css)",
+      "priority": 2,
+      "passes": false,
+      "acceptanceCriteria": [
+        "design/ohmyc-design-system/colors_and_type.css 가 app/globals.css에 import 또는 인라인 통합",
+        "design/ohmyc-design-system/fonts/PretendardVariable.woff2 가 public/fonts/ 또는 app/fonts/에 복사",
+        "@font-face 또는 next/font/local 로 Pretendard Variable 로드 (font-display: swap)",
+        "tailwind.config.ts 에 --omc-tint 시리즈 + 캔버스 + 텍스트 색·radius·spacing·elevation 토큰 매핑",
+        "design/ohmyc-design-system/assets/*.svg (mark, wordmark) public/ 또는 app/assets/ 로 복사",
+        "app/page.tsx 에 토큰 사용 샘플로 Pretendard 글자 + #FF8552 chip 렌더 확인"
+      ]
+    },
+    {
+      "id": "US-003",
+      "title": "Phase 1 — 데이터 레이어 (Supabase 익명 인증 + CRUD)",
+      "priority": 3,
+      "passes": false,
+      "acceptanceCriteria": [
+        "lib/supabase.ts 에 createClient (브라우저용, NEXT_PUBLIC 키만)",
+        "lib/anon-user.ts 에 getOrCreateAnonUserId() — sessionStorage 캐시 + crypto.randomUUID() 폴백",
+        "lib/pair-session.ts 에 createPairSession / getPairSessionByAnonUserId 함수",
+        "lib/todos.ts 에 createTodo / getTodosByPairSession 함수",
+        "각 함수에 try/catch + sessionStorage 폴백 (Supabase 호출 실패 시)",
+        "타입 정의: PairSession, Todo (필드 PRD 스키마와 일치)"
+      ]
+    },
+    {
+      "id": "US-004",
+      "title": "Phase 2 — UI 컴포넌트 (Avatar / Button / Screen / LogoLockup / StepDots)",
+      "priority": 4,
+      "passes": false,
+      "acceptanceCriteria": [
+        "components/Avatar.tsx — Breathe 애니메이션 클래스 적용 + radial-gradient apricot bloom + size prop",
+        "components/Button.tsx — capsule (radius 980px) primary/secondary/ghost variant + Pulse on tap",
+        "components/Screen.tsx — Welcome/Meeting/Memo/Promise/Confirm 공통 scaffold (background prop, footer slot, padTop)",
+        "components/LogoLockup.tsx — ohmyc 로고 SVG (mark + wordmark)",
+        "components/StepDots.tsx — 진행도 표시 5개 dots, dark/light variant",
+        "design/ohmyc-design-system/ui_kits/onboarding/*.jsx 패턴을 TSX로 포팅 (스타일 인라인 또는 globals.css)",
+        "각 컴포넌트가 채팅 UI artifact 0건 (말풍선·하단 입력 바·사이드바 ❌)"
+      ]
+    },
+    {
+      "id": "US-005",
+      "title": "Phase 3 — 5 화면 페이지 (Welcome → Meeting → Memo → Promise → Confirm)",
+      "priority": 5,
+      "passes": false,
+      "acceptanceCriteria": [
+        "app/page.tsx 또는 app/(onboarding)/page.tsx 에 5-screen state machine (현재 step + 다음/이전)",
+        "01 Welcome 화면 — 다크 캔버스 + bloom Breathe + *처음 만날 준비 됐어요* + 시작하기 CTA",
+        "02 Meeting 화면 — 다크 캔버스 + Avatar Breathe + PAIR · 세린 라벨 + *처음 만나서 반가워. 나는 세린이야.* + 페어링하기 CTA",
+        "03 Memo 화면 (B 메모지, 신규) — 라이트 캔버스 + 헤드라인 *오늘 꼭 챙기고 싶은 일은 뭐야?* + 한 줄 underline 인풋 (maxLength 30, placeholder) + *세린이 곁에서 챙길게.* + 약속 만들기 CTA (빈 입력 시 disabled)",
+        "04 Promise 화면 — warm-paper 캔버스 + warm-paper card (rotate -1.4deg, warm shadow) + 결정타 카피 3 패턴 동적 분기 (디폴트 *3시간 뒤에 한번 물어볼게.* / 시간대 키워드 *이따 HH:MM에 한번 물어볼게.* / 내일 키워드 *내일 HH:MM에 한번 물어볼게.* — lib/reminder-heuristic.ts) + 입력 텍스트가 보조 카피에 동적 반영 + 시간 라벨 동적 + 약속할게 CTA",
+        "05 Confirm 화면 — 라이트 캔버스 + Avatar Breathe + *기억할게요. 같이 알아가요.* + 이제 만나러 가기 CTA",
+        "각 화면 진입·CTA 클릭 시 Supabase 저장 또는 sessionStorage 폴백",
+        "결정타 라인 *3시간 뒤에 한번 물어볼게.* 는 시스템 프롬프트 고정 또는 비-LLM 카피로 처리 (LLM 자유 응답 ❌)",
+        "캐릭터 발화 = 반말 / 시스템 메시지 = 존댓말 분리 확인"
+      ]
+    },
+    {
+      "id": "US-006",
+      "title": "Phase 4 — Gemini LLM 통합 (Vercel AI SDK + 4키 로테이션 + flash-lite 보조 카피)",
+      "priority": 6,
+      "passes": false,
+      "acceptanceCriteria": [
+        "@ai-sdk/google + ai (Vercel AI SDK) 의존성 설치",
+        "lib/gemini.ts — 4개 키 라운드로빈 로테이션 + 레이트리밋 감지 시 폴백 + MODELS.default(gemini-3-flash-preview)·MODELS.lite(gemini-2.5-flash-lite) 분리",
+        "app/api/promise-copy/route.ts — Memo 입력으로 자연 한국어 보조 한 줄 생성 (model gemini-2.5-flash-lite, 시스템 프롬프트 세린 톤·시간 단어 금지·격조사 정확)",
+        "Welcome 첫 발화는 비-LLM 고정 카피 (시연 위험 1 대응)",
+        "결정타 라인은 LLM 자유 응답 ❌ — 시스템 프롬프트 또는 비-LLM 카피로 고정",
+        "page.tsx Memo onNext에서 fetchPromiseCopyWithTimeout(1500ms) 비동기 호출, 응답 늦거나 실패 시 폴백 템플릿(`{입력}, 잊지 않게 곁에서 챙겨줄게.`) 표시",
+        "Promise 화면에 즉시 진입(폴백 카피) → LLM 응답 도착 시 자연 카피로 스왑"
+      ]
+    },
+    {
+      "id": "US-007",
+      "title": "Phase 5 — Vercel 프로덕션 배포 + 시연 리허설 + 백업 영상",
+      "priority": 7,
+      "passes": false,
+      "progress": "Vercel deploy --prod 완료 (2026-04-26, https://ohmyc-hackathon-prep.vercel.app, 사용자 확인). 시연 리허설·백업 영상 잔여.",
+      "acceptanceCriteria": [
+        "vercel deploy --prod 성공 + 라이브 URL 공개",
+        "Vercel 환경 변수 등록 (Production·Preview 분리, 6개 키 모두)",
+        "라이브 URL 모바일 폭(max-w-md / 390px)에서 5 화면 끊김 없이 흐름",
+        "결정타 라인 *3시간 뒤에 한번 물어볼게.* 정상 출력",
+        "Memo 입력 텍스트가 Promise 카드에 동적 반영",
+        "새로고침 시연 1회 — 동일 페어 세션·todo 복귀 (Supabase 영속화 입증)",
+        "백업 영상 30초 사전 녹화 (OBS/QuickTime, 시연 화면 캡처)",
+        "G1 정량 + G2 정성 + 부수 기준 모두 통과"
+      ]
+    },
+    {
+      "id": "US-008",
+      "title": "Phase 6 — 회고 노트 + 메모리 갱신 후보 식별",
+      "priority": 8,
+      "passes": false,
+      "acceptanceCriteria": [
+        "progress.txt 에 통한 것·막힌 것·다음 사이클 학습 데이터 정리",
+        "MEMORY.md 인덱스 갱신 (Gemini 모델 ID 정정 + 새로 배운 것 1~3개 auto-append)",
+        "feedback_*·project_* 메모리 갱신 후보 식별 + 적용",
+        "demo_script.md 화면 동선 = 실제 화면 일치 (스크린샷 첨부)"
+      ]
+    },
+    {
+      "id": "US-009",
+      "title": "Phase 7 — Home + Alarm 시뮬 (곁에 있는 페어, Stage 1·2 직접 입증)",
+      "priority": 9,
+      "passes": false,
+      "progress": "코드 완성 + production 재배포 (2026-04-26 https://ohmyc-hackathon-prep.vercel.app). 사용자 검증 잔여.",
+      "acceptanceCriteria": [
+        "components/HomeScreen.tsx — 활성 약속 카드(결정타 헤드라인 + 보조 카피 + timeLabel + 입력 텍스트 메타) + Avatar Breathe + [새 약속 만들기]·[지금 약속 시간 받기] CTA. 완료 시 line-through + 완료 라벨",
+        "components/AlarmScreen.tsx — warm-paper 캔버스 + Avatar + 헤드라인 *시간 됐어. 다 했어?* + 입력 텍스트 카드 + [다 했어]·[다음에 알려줘]",
+        "page.tsx state machine 7-step (0~6). Confirm onNext → Home(5). 새로고침 진입 시 Home(5) 복귀 (이전 Confirm 4)",
+        "lib/todos.ts markTodoCompleted — Supabase update + sessionStorage 폴백 동기화",
+        "Home의 [지금 약속 시간 받기] → Alarm. Alarm [다 했어] → markTodoCompleted → Home(완료 표시). [다음에] → Home(그대로)",
+        "라이브 URL 검증: 7-step 흐름 + 새로고침 시 Home 직진 + 완료 상태 그대로",
+        "Stage 1 Memory 입증 (영속화 누적) + Stage 2 Action 입증 (시간 알림 시뮬·완료 마킹)"
+      ]
+    }
+  ],
+  "non_goals": [
+    "캐릭터 다수화 / 잠금 카드 활성화 (R6-③ 이번 데모 범위 밖)",
+    "4-2 기분 트래커 (디자인 시스템 명시 — 다음 사이클)",
+    "RAG·임베딩·정교한 LLM 메모리 시스템 (H2 2026)",
+    "결제·크레딧·캐릭터 구매 (H2 2026 이후)",
+    "다국어 폰트·시맨틱 컬러·다크/라이트 토글 (H2 2026)",
+    "크리에이터 업로드·인센티브 (H1 2027)",
+    "추상화·디자인 시스템 신설·테스트 인프라 신규 도입 (CLAUDE.md 3.3)",
+    "비익명 인증·소셜 로그인 (이번 사이클 익명만)"
+  ],
+  "risks": [
+    {
+      "id": "R-001",
+      "trigger": "Gemini 첫 콜드 스타트 지연으로 Welcome·Meeting 무한 대기처럼 보임",
+      "plan_b": "첫 발화는 비-LLM 고정 카피, LLM은 Memo→Promise 사이에서 처음 호출"
+    },
+    {
+      "id": "R-002",
+      "trigger": "Supabase 호출 실패 (네트워크·키 오류)",
+      "plan_b": "sessionStorage 폴백 + 회복 시 동기화. 시연 시 부띠크모나코 Wi-Fi 의존성 인지"
+    },
+    {
+      "id": "R-003",
+      "trigger": "Gemini 4키 모두 쿼터 소진",
+      "plan_b": "라운드로빈 + 레이트리밋 재시도, 최후 수단 비-LLM 폴백 카피"
+    },
+    {
+      "id": "R-004",
+      "trigger": "Pretendard woff2 로드 실패 또는 지연",
+      "plan_b": "@font-face 의 system-ui fallback (Apple SD Gothic Neo 등) + font-display: swap"
+    },
+    {
+      "id": "R-005",
+      "trigger": "Vercel 빌드 실패 (TypeScript 오류 등)",
+      "plan_b": "로컬 dev URL을 ngrok/cloudflare tunnel로 노출 (시연용), 백업 영상 30초로 1차 심사 통과"
+    },
+    {
+      "id": "R-006",
+      "trigger": "결정타 라인 *3시간 뒤에 한번 물어볼게.* 가 LLM 자유 응답으로 흐려짐",
+      "plan_b": "시스템 프롬프트 고정 또는 완전 비-LLM 카피 (Promise 화면 정적 텍스트)"
+    },
+    {
+      "id": "R-007",
+      "trigger": "한 줄 underline 인풋이 채팅 입력 바로 보임 (자가 reject 위반)",
+      "plan_b": "메모지 톤 placeholder + 카드 안 underline (하단 고정 X) + 채팅 UI self-check 통과 검증"
+    },
+    {
+      "id": "R-008",
+      "trigger": "18:00 마감 임박 + 미완성 단계",
+      "plan_b": "컷 우선순위 — Phase 5 배포 > Phase 4 LLM > Phase 3 5화면 > Phase 6 회고. Phase 4 포기 시 결정타 비-LLM 카피로만 처리"
+    }
+  ],
+  "dependencies": [
+    "Vercel 계정 + CLI 설치 ✓",
+    "Supabase 계정 (프로젝트 생성 필요)",
+    "Gemini API 키 4개 ✓ (.env에 박힘)",
+    "Node v24 + npm 11 ✓",
+    "디자인 시스템 (design/ohmyc-design-system/) ✓",
+    "scripts/*.py Gemini 검증 패턴 ✓"
+  ],
+  "completion_promise_conditions_AND": [
+    "prd.json 전체 stories[].passes = true (reviewer 통과)",
+    "vercel deploy 성공 + 라이브 URL에서 5-screen + 새로고침 시연 무중단",
+    "demo_script.md 화면 동선 = 실제 화면 (스크린샷)",
+    "progress.txt 회고 노트 자동 생성",
+    "MEMORY.md 새로 배운 것 1~3개 auto-append"
+  ]
+}

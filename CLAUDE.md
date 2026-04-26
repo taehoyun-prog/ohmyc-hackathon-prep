@@ -50,8 +50,8 @@ Plaitoon 트랙션·로드맵·문서 간 참조 경로를 추출해 메모리�
 
 ### 3턴 — "어떻게 실행·어디서 깨지나"
 4턴이 실패하지 않도록 받쳐주는 가드레일 층이다. 다음을 메모리화한다.
-- 9시간 해커톤 가드레일 (DB·인증 없음, 추상화·디자인 시스템·테스트
-  인프라 신설 금지) — "우리 약속" 형태로
+- 9시간 해커톤 가드레일 (Supabase 익명 인증만, 추가 백엔드·추상화·
+  디자인 시스템·테스트 인프라 신설 금지) — "우리 약속" 형태로
 - 60초 시연 스크립트의 1차 가설 (멘트·화면 동선·종료 트리거)
 - 위험 등록부: "조건 → 발현 신호 → plan_b" 3단 형식
 - 워크플로우 약속 (Deep Interview → Ralph → Vercel 사이클, 회고 노트
@@ -124,9 +124,11 @@ Plaitoon 트랙션·로드맵·문서 간 참조 경로를 추출해 메모리�
 - Apple Action Blue(`#0071e3`)는 액션 의미가 분명한 경우에만.
 
 ### 3.3 기술 가드레일 (해커톤 9시간)
-- Stack: Next.js 15 App Router + TypeScript + Tailwind + Claude
-  Haiku (`claude-haiku-4-5-20251001`) + Vercel AI SDK + Vercel 배포
-- DB 없음 (sessionStorage / 메모리만). 인증 없음 (익명).
+- Stack: Next.js 15 App Router + TypeScript + Tailwind + Google
+  Gemini 3 Flash (`gemini-3-flash`) + Vercel AI SDK + Supabase + Vercel 배포
+  *(2026-04-26 Haiku→Gemini 3 Flash, no-DB→Supabase 사용자 직권 결정)*
+- DB: Supabase (익명 인증 — Anonymous Sign-In).
+  sessionStorage는 `anon_user_id` 캐시 용도로만.
 - 모바일 웹앱 기준 (`max-w-md` 단일 컬럼).
 - 추상화·디자인 시스템 신설·테스트 인프라 신규 도입 **금지**.
 - 막히면 risks[]의 plan_b를 먼저 시도.

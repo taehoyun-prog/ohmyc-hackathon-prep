@@ -1,0 +1,39 @@
+# ohmyc 해커톤 MVP — Ralph 진행 로그
+
+## Iteration 0 (2026-04-26T11:30+09:00 시작)
+
+### 입력
+- PRD: prd.json (8 stories, US-001 ~ US-008)
+- 시연 스크립트: demo_script.md
+- 디자인 시스템: design/ohmyc-design-system/ (1차 SSOT, Pretendard + colors_and_type.css + ui_kits/onboarding/*.jsx 시안)
+- Gemini scripts: scripts/{hello_gemini,stream_gemini,gemini_client}.py (모델 ID: gemini-3-flash-preview, 4키 로테이션)
+
+### 시간 박스
+- 시작: 2026-04-26T11:30+09:00 (Ralph iteration 0)
+- **마감: 2026-04-26T18:00+09:00 = 잔여 ~6시간 30분**
+- 파이널 피칭: 19:30~20:00 (팀당 5분, 6슬라이드)
+
+### 환경 검증 완료
+- Node v24.14.0 ✓
+- npm 11.9.0 ✓
+- Vercel CLI 설치됨 (/opt/homebrew/bin/vercel)
+- Supabase CLI 미설치 — 웹 콘솔 + npm 패키지로 충분
+- .env 에 GEMINI_API_KEY 4개 박힘 ✓
+- .gitignore 에 .env 포함 ✓
+
+### 누락 발견 (CLAUDE.md 워크플로우 위반)
+- 3턴(위험 등록부·시연 지지대·가드레일 약속) 메모리 건너뜀 → Iteration 0에서 보강
+- prd.json·demo_script.md·ralph_handoff.md 3 파일 산출물 누락 → Iteration 0에서 작성
+
+### 모델 ID 충돌 인지
+- CLAUDE.md line 128: `gemini-2.5-flash` (outdated)
+- scripts/*.py 및 PRD R6-②: `gemini-3-flash-preview` (정본)
+- 사용자 결정 필요 — 일단 prd.json·ralph_handoff.md는 정본(`gemini-3-flash-preview`) 사용
+
+### 다음 단계 (US-001 진입)
+- Phase 0 인프라 셋업 시작
+- Next.js 15 스캐폴드 위치: cwd 직접 (추측) — 기존 docs·design·scripts 평면 공존
+- npx create-next-app 또는 수동 셋업 (3턴 가드레일 "추상화 신설 금지"와 정합 위해 수동 권장)
+
+### 학습 (다음 사이클로)
+- (미작성 — Phase 0 시작 후 갱신)

@@ -1,0 +1,189 @@
+/* ============================================================
+   ohmyc — colors & type tokens
+   Apple HIG skeleton + Soft Apricot accent + Pretendard Korean.
+   Single source of truth — import this in any ohmyc artifact.
+   ============================================================ */
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("./fonts/PretendardVariable.woff2") format("woff2-variations");
+}
+
+:root {
+  /* ----- ohmyc accent (single brand color, do not add more) ---- */
+  --omc-tint:           #FF8552;   /* Soft Apricot — ohmyc's only brand accent */
+  --omc-tint-deep:      #E96A37;   /* pressed / hover-down state */
+  --omc-tint-soft:      #FFD9C5;   /* tint at ~30% over light surfaces */
+  --omc-tint-paper:     #FFF1E8;   /* warm-paper tint (Promise card surface) */
+
+  /* ----- neutral foundation (Apple HIG base) ------------------- */
+  --fg-1:               #1D1D1F;   /* primary text on light */
+  --fg-2:               #6E6E73;   /* secondary text / helper copy */
+  --fg-3:               #86868B;   /* tertiary / mid borders + meta text */
+  --fg-on-dark:         #F5F5F7;   /* primary text on black */
+  --fg-on-dark-2:       rgba(245,245,247,0.72);
+  --fg-on-dark-3:       rgba(245,245,247,0.48);
+
+  --bg-canvas-light:    #F5F5F7;   /* pale apple gray — main light canvas */
+  --bg-canvas-white:    #FFFFFF;   /* pure white retail surface */
+  --bg-canvas-dark:     #000000;   /* absolute black hero canvas */
+  --bg-graphite-a:      #272729;
+  --bg-graphite-b:      #262629;
+  --bg-graphite-c:      #28282B;
+  --bg-graphite-d:      #2A2A2C;
+
+  --border-soft:        #D2D2D7;   /* dividers + quiet outlines */
+  --border-mid:         #86868B;   /* stronger field outlines */
+  --border-on-dark:     rgba(255,255,255,0.12);
+
+  /* ----- type families ---------------------------------------- */
+  --font-display: "Pretendard Variable", "Pretendard", -apple-system,
+                  BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                  "Apple SD Gothic Neo", "Helvetica Neue", Arial, sans-serif;
+  --font-text:    "Pretendard Variable", "Pretendard", -apple-system,
+                  BlinkMacSystemFont, "SF Pro Text",
+                  "Apple SD Gothic Neo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ----- type scale (display) --------------------------------- */
+  --t-hero-xl:        80px;   --lh-hero-xl: 1.02;   --tr-hero-xl: -1.2px;
+  --t-hero-l:         56px;   --lh-hero-l:  1.07;   --tr-hero-l:  -0.6px;
+  --t-section:        48px;   --lh-section: 1.08;   --tr-section: -0.4px;
+  --t-product:        40px;   --lh-product: 1.10;   --tr-product: -0.3px;
+  --t-feature:        32px;   --lh-feature: 1.12;   --tr-feature: -0.2px;
+  --t-promo:          28px;   --lh-promo:   1.18;   --tr-promo:   -0.15px;
+  --t-card-title:     24px;   --lh-card:    1.20;   --tr-card:    -0.1px;
+  --t-utility:        21px;   --lh-utility: 1.30;   --tr-utility: -0.05px;
+  --t-subhead:        19px;   --lh-subhead: 1.32;   --tr-subhead: -0.02px;
+  --t-body:           17px;   --lh-body:    1.55;   --tr-body:     0;        /* +0.04 vs Apple — Korean reads tall */
+  --t-control:        14px;   --lh-control: 1.40;   --tr-control:  0;
+  --t-micro:          12px;   --lh-micro:   1.40;   --tr-micro:    0.02px;
+  --t-legal:          10px;   --lh-legal:   1.40;   --tr-legal:    0.04px;
+
+  /* ----- weight ladder (Pretendard supports 100–900) ---------- */
+  --w-light:    300;
+  --w-regular:  400;
+  --w-medium:   500;
+  --w-semibold: 600;   /* dominant emphasis weight */
+  --w-bold:     700;
+
+  /* ----- radius tiers (purposeful, multi-step) ---------------- */
+  --r-tag:       5px;     /* tiny utility chips */
+  --r-control:  10px;     /* standard buttons + fields */
+  --r-card:     16px;
+  --r-card-lg:  22px;
+  --r-module:   28px;
+  --r-spotlight: 36px;
+  --r-capsule: 980px;     /* signature pill CTA */
+  --r-circle:    50%;
+
+  /* ----- spacing (8px base, with micro-steps) ---------------- */
+  --s-1:  2px;  --s-2:  4px;  --s-3:  6px;  --s-4:  8px;
+  --s-5: 12px;  --s-6: 14px;  --s-7: 17px;  --s-8: 20px;
+  --s-9: 24px;  --s-10:32px;  --s-11:40px;  --s-12:56px;  --s-13: 80px;
+
+  /* ----- elevation (used sparingly; tonal contrast preferred) */
+  --el-1: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+  --el-2: 0 4px 12px rgba(0,0,0,0.08);
+  --el-3: 0 12px 32px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+  --el-warm: 0 10px 28px rgba(255,133,82,0.18);   /* the only warm-tinted shadow — Promise card only */
+
+  /* ----- motion (only two named gestures) -------------------- */
+  --ease-soft:    cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-pulse:    600ms;
+  --dur-breathe:  3500ms;
+
+  /* ----- focus ring ------------------------------------------ */
+  --focus-ring: 0 0 0 3px rgba(255,133,82,0.35);
+}
+
+/* ============================================================
+   Semantic element styles
+   ============================================================ */
+
+html, body {
+  background: var(--bg-canvas-light);
+  color: var(--fg-1);
+  font-family: var(--font-text);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-size: var(--t-hero-l);
+  line-height: var(--lh-hero-l);
+  letter-spacing: var(--tr-hero-l);
+  font-weight: var(--w-semibold);
+  margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: var(--t-section);
+  line-height: var(--lh-section);
+  letter-spacing: var(--tr-section);
+  font-weight: var(--w-semibold);
+  margin: 0;
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: var(--t-product);
+  line-height: var(--lh-product);
+  letter-spacing: var(--tr-product);
+  font-weight: var(--w-semibold);
+  margin: 0;
+}
+h4, .h4 {
+  font-family: var(--font-display);
+  font-size: var(--t-card-title);
+  line-height: var(--lh-card);
+  font-weight: var(--w-semibold);
+  margin: 0;
+}
+h5, .h5 {
+  font-family: var(--font-text);
+  font-size: var(--t-subhead);
+  line-height: var(--lh-subhead);
+  font-weight: var(--w-semibold);
+  margin: 0;
+}
+p, .p { margin: 0 0 var(--s-6) 0; }
+.p-emphasis { font-weight: var(--w-semibold); }
+.p-secondary { color: var(--fg-2); }
+.p-control { font-size: var(--t-control); line-height: var(--lh-control); }
+.p-micro   { font-size: var(--t-micro);   line-height: var(--lh-micro);   color: var(--fg-2); }
+.p-legal   { font-size: var(--t-legal);   line-height: var(--lh-legal);   color: var(--fg-3); }
+
+a {
+  color: var(--omc-tint-deep);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* ============================================================
+   Two named motion gestures — Breathe + Pulse.
+   DO NOT invent more.
+   ============================================================ */
+
+@keyframes omc-breathe {
+  0%, 100% { transform: scale(1.000); }
+  50%      { transform: scale(1.020); }
+}
+.omc-breathe { animation: omc-breathe var(--dur-breathe) var(--ease-soft) infinite; }
+
+@keyframes omc-pulse {
+  0%   { transform: scale(1.000); }
+  50%  { transform: scale(0.970); }
+  100% { transform: scale(1.000); }
+}
+.omc-pulse-on-tap:active { animation: omc-pulse var(--dur-pulse) var(--ease-soft); }

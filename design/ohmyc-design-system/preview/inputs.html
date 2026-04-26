@@ -1,0 +1,14 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;color:#6e6e73;font-weight:600;letter-spacing:.02em}
+.field input{font-family:var(--font-text);font-size:17px;padding:12px 14px;border:1px solid #86868b;border-radius:10px;background:#fff;color:#1d1d1f;outline:none}
+.field input:focus{border-color:#FF8552;box-shadow:0 0 0 3px rgba(255,133,82,.35)}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border-radius:980px;border:1px solid #d2d2d7;background:#fff;color:#1d1d1f}
+.chip.on{background:#1d1d1f;color:#fff;border-color:#1d1d1f}
+</style></head><body>
+<div class="card" style="padding:24px;display:flex;flex-direction:column;gap:18px">
+<div class="field"><label>오늘 꼭 할 일</label><input value="이력서 마무리하기"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="chip on">3시간 뒤</span><span class="chip">오늘 저녁</span><span class="chip">내일 아침</span><span class="chip">직접 정하기</span></div>
+</div>
+</body></html>

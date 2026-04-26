@@ -1,20 +1,5 @@
 # Design System Inspired by Apple
 
-> **ohmyc 편차 (이 프로젝트에서는 아래가 우선 — Apple 원형보다 상위)**
->
-> 본 문서는 Apple HIG의 *raw* 분석본입니다. ohmyc 적용 시 다음 편차를 무조건 따르세요. 충돌하면 편차가 이깁니다.
->
-> 1. **단일 액센트**: Apple Action Blue(`#0071e3`) 대신 `--tint #FF8552` (Soft Apricot) **단 하나**. 추가 브랜드 컬러 신설 금지. Apple Action Blue는 액션 의미가 분명한 경우에만 보조 사용.
-> 2. **타이포그래피**: SF Pro 대신 한국어 우선 — **Pretendard Variable** (`design/ohmyc-design-system/fonts/PretendardVariable.woff2`).
-> 3. **금지어**: 비서 / 집사 / 도우미 / 어시스턴트 / assistant / helper / chatbot — 페어(Pair)는 수평적 파트너.
-> 4. **모션 제스처 2종만**: `Breathe` (avatar, 1.00↔1.02, 3.5s) / `Pulse` (CTA tap, 1.00→0.97, 600ms). 추가 신설 금지.
-> 5. **No chat artifacts**: speech bubble · 하단 고정 input bar · sidebar nav · message log · "User:/Assistant:" 라벨 모두 금지. ohmyc는 채팅이 아니라 에이전트.
-> 6. **Radius 다층**: capsule 980 / card 16~22 / chip 5 / circle 50% — 최소 3종 동시 사용.
->
-> **상세 토큰·UI kit**: `design/ohmyc-design-system/colors_and_type.css`, `design/ohmyc-design-system/SKILL.md`, `design/ohmyc-design-system/ui_kits/onboarding/` 참조.
-
----
-
 ## 1. Visual Theme & Atmosphere
 
 Apple's web language is a precision editorial system that alternates between gallery-like calm and retail-density information blocks. The visual tone stays restrained: broad neutral canvases, quiet chrome, and product imagery given almost all of the expressive weight. The interface is engineered to disappear so hardware, materials, and finish options become the narrative foreground.
