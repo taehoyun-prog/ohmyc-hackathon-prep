@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label="ohmyc">
+  <defs>
+    <style>
+      @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.min.css');
+      .ohmyc-wordmark {
+        font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 56px;
+        fill: #1d1d1f;
+        letter-spacing: -0.04em;
+        font-feature-settings: "ss01", "cv01";
+      }
+    </style>
+  </defs>
+  <!-- pair mark: user (dark) meeting character (apricot) -->
+  <circle cx="28" cy="48" r="13" fill="#1d1d1f"/>
+  <circle cx="56" cy="48" r="9" fill="#FF8552"/>
+  <!-- wordmark -->
+  <text class="ohmyc-wordmark" x="80" y="64">ohmyc</text>
+</svg>

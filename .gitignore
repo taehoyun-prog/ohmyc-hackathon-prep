@@ -1,0 +1,33 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# OMC runtime
+.omc/state/
+.omc/logs/
+.omc/research/
+.omc/sessions/

@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777165124102,
+  "projectRoot": "/Users/netty03/Documents/GitHub/ohmyc-hackathon-prep",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "requirements.txt"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "pip",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "scripts"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "design": {
+      "path": "design",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1777165124097,
+      "keyFiles": [
+        "DESIGN.md"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 3,
+      "lastAccessed": 1777165124097,
+      "keyFiles": [
+        "HACKATHON-PITCH-DECK-TEMPLATE.md",
+        "ONE-PAGER.md",
+        "README.md"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 3,
+      "lastAccessed": 1777165124098,
+      "keyFiles": [
+        "gemini_client.py",
+        "hello_gemini.py",
+        "stream_gemini.py"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "CLAUDE.md",
+      "accessCount": 1,
+      "lastAccessed": 1777165284465,
+      "type": "file"
+    },
+    {
+      "path": "design/assets/logo/ohmyc-wordmark.svg",
+      "accessCount": 1,
+      "lastAccessed": 1777166827299,
+      "type": "file"
+    },
+    {
+      "path": "design/assets/logo/ohmyc-mark.svg",
+      "accessCount": 1,
+      "lastAccessed": 1777166829402,
+      "type": "file"
+    },
+    {
+      "path": "design/assets/logo/preview.html",
+      "accessCount": 1,
+      "lastAccessed": 1777166846891,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
