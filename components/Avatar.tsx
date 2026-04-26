@@ -1,49 +1,14 @@
+/**
+ * Avatar — 2026-04-26 design pivot 후 일러스트 캐릭터 래퍼.
+ * 호출처 변경 없이 추상 placeholder → 일러스트 인격체로 전환.
+ */
+import { CharacterFigure } from "./CharacterFigure";
+import { getCharacter } from "@/lib/characters";
+
 type AvatarProps = { size?: number; bloom?: boolean };
 
 export function Avatar({ size = 184, bloom = true }: AvatarProps) {
-  const dotSize = size * 0.13;
-  return (
-    <div
-      className="omc-breathe relative flex items-center justify-center"
-      style={{ width: size, height: size }}
-    >
-      {bloom && (
-        <div
-          aria-hidden
-          className="absolute rounded-capsule"
-          style={{
-            inset: -16,
-            background:
-              "radial-gradient(circle, rgba(255,133,82,0.22) 0%, rgba(255,133,82,0) 65%)",
-          }}
-        />
-      )}
-      <div
-        className="rounded-capsule relative"
-        style={{
-          width: size,
-          height: size,
-          background:
-            "radial-gradient(circle at 36% 32%, #FFFFFF 0%, #F5F5F7 60%, #E2E2E6 100%)",
-          boxShadow:
-            "inset -6px -8px 18px rgba(255,133,82,0.18), inset 4px 4px 14px rgba(255,255,255,0.8)",
-        }}
-      >
-        <div
-          aria-hidden
-          className="absolute rounded-capsule"
-          style={{
-            right: "20%",
-            top: "36%",
-            width: dotSize,
-            height: dotSize,
-            background: "var(--omc-tint)",
-            boxShadow: "0 4px 14px rgba(255,133,82,0.4)",
-          }}
-        />
-      </div>
-    </div>
-  );
+  return <CharacterFigure character={getCharacter()} size={size} bloom={bloom} />;
 }
 
 export function BloomCircle({ size = 220 }: { size?: number }) {

@@ -3,11 +3,12 @@ import { Button } from "./Button";
 
 type Props = {
   todoText: string;
+  timeLabel?: string;
   onDone: () => void;
   onSnooze: () => void;
 };
 
-export function AlarmScreen({ todoText, onDone, onSnooze }: Props) {
+export function AlarmScreen({ todoText, timeLabel, onDone, onSnooze }: Props) {
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center px-s-9 py-s-12 text-center"
@@ -25,7 +26,7 @@ export function AlarmScreen({ todoText, onDone, onSnooze }: Props) {
           color: "var(--omc-tint-deep)",
         }}
       >
-        약속 시간 · CHECK-IN
+        세린 체크인 · 지금 확인해요
       </p>
 
       <h1
@@ -40,9 +41,9 @@ export function AlarmScreen({ todoText, onDone, onSnooze }: Props) {
           maxWidth: 320,
         }}
       >
-        시간 됐어.
+        약속한 시간이 왔어.
         <br />
-        다 했어?
+        지금 상태 알려줘.
       </h1>
 
       <div
@@ -65,7 +66,7 @@ export function AlarmScreen({ todoText, onDone, onSnooze }: Props) {
             color: "var(--omc-tint-deep)",
           }}
         >
-          오늘 챙기고 싶었던 일
+          {timeLabel ? `체크인 시간 ${timeLabel}` : "세린이 기억한 약속"}
         </div>
         <div
           className="font-display"
@@ -82,9 +83,9 @@ export function AlarmScreen({ todoText, onDone, onSnooze }: Props) {
       </div>
 
       <div className="flex flex-col items-center gap-s-5">
-        <Button onClick={onDone}>다 했어</Button>
+        <Button onClick={onDone}>다 했어요</Button>
         <Button onClick={onSnooze} variant="ghost">
-          다음에 알려줘
+          30분 뒤에 다시 확인해요
         </Button>
       </div>
     </div>

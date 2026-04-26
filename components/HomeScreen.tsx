@@ -37,10 +37,7 @@ export function HomeScreen({
   }, [todoText, todoCreatedAt]);
 
   const supportingCopy =
-    promiseCopy ??
-    (todoText
-      ? `${todoText}, 잊지 않게 곁에서 챙겨줄게.`
-      : "");
+    promiseCopy ?? (todoText ? "이 일은 흐름 안에서 같이 챙겨볼게." : "");
 
   const isCompleted = Boolean(completedAt);
 
@@ -74,7 +71,9 @@ export function HomeScreen({
           textWrap: "balance",
         }}
       >
-        {isCompleted ? "약속 잘 지켰어." : "곁에서 약속을 챙기는 중."}
+        {isCompleted
+          ? "완료한 약속을 세린이 기억했어요."
+          : "세린이 지금 이 약속을 챙기고 있어요."}
       </h1>
 
       {todoText && (
@@ -132,17 +131,17 @@ export function HomeScreen({
               color: "var(--fg-3)",
             }}
           >
-            <span>약속, {todoText}</span>
+            <span>지금 챙기는 약속</span>
             <span>{timeLabel}</span>
           </div>
         </div>
       )}
 
       <div className="flex flex-col items-center gap-s-5">
-        <Button onClick={onNewPromise}>새 약속 만들기</Button>
+        <Button onClick={onNewPromise}>새 약속 맡기기</Button>
         {!isCompleted && todoText && (
           <Button onClick={onCheckAlarm} variant="ghost">
-            지금 약속 시간 받기
+            지금 체크인 받기
           </Button>
         )}
       </div>

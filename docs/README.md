@@ -1,7 +1,7 @@
-# ohmyc 해커톤 사전 준비 패키지
+# ohmyc production 준비 패키지
 
-> **목적**: 내일 (2026-04-26) 해커톤 09:00에 그대로 사용할 .md 자료 묶음.
-> **사용법**: 내일 새 ohmyc 폴더 만들고 이 패키지 통째로 복사.
+> **목적**: ohmyc Phase 1 작업에 그대로 사용할 .md 자료 묶음.
+> **사용법**: 새 ohmyc 폴더 만들고 이 패키지 통째로 복사.
 
 ## 파일 구성
 
@@ -15,7 +15,7 @@ ohmyc-hackathon-prep/
     └── 피칭내러티브.md                      ← 사업계획 9섹션 + 핵심 카피 5개
 ```
 
-## 내일 09:00 — 정확한 사용 순서
+## 시작 — 정확한 사용 순서
 
 ### Step 1. 폴더 만들고 패키지 복사
 
@@ -40,7 +40,7 @@ echo "GEMINI_API_KEY=" > .env.local  # 4개 로테이션 시 GEMINI_API_KEY_2~4 
 
 ```bash
 git add -A
-git commit -m "feat: ohmyc hackathon scaffold"
+git commit -m "feat: ohmyc phase1 scaffold"
 gh repo create ohmyc-hackathon --public --source=. --remote=origin --push
 ```
 
@@ -60,7 +60,7 @@ Claude Code 입력창에 순서대로:
 
 **2턴**:
 ```
-이 ohmyc MVP를 9시간 안에 시연 가능하게 만든다면, 가장 큰 기술 리스크 3가지와 가장 작은 스코프를 추천해줘.
+이 ohmyc Phase 1 MVP를 시연 가능하게 만든다면, 가장 큰 기술 리스크 3가지와 가장 작은 스코프를 추천해줘.
 ```
 
 **3턴**:
@@ -135,7 +135,7 @@ HACKATHON-PITCH-DECK.md 기반으로 5분짜리 발표 스크립트를 슬라이
 | Ralph 같은 에러 5분 반복 | `/oh-my-claudecode:cancel` → 에러 복사 → 사람이 같이 디버깅 → 재시작 |
 | Vercel 배포 실패 | 로컬 화면 30초 영상 녹화로 백업 |
 | API 키 안 먹음 | `vercel env add GEMINI_API_KEY` 후 `vercel --prod` 재배포 |
-| 시간 부족 | **기능 빼는 게 답.** 60초 시연 1장면만 살리기 |
+| 시간 부족 | **기능 빼는 게 답.** 시연 핵심 1장면만 살리기 |
 | 데모 시간 직전 안 됨 | 미리 녹화한 영상 틀기. 당황 NO. |
 
 ---

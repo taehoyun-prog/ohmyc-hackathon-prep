@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "interview_id": "ohmyc-mvp-20260426",
-  "task": "ohmyc 해커톤 MVP V0.1 — 5-screen 페어 첫 만남 + Supabase 영속화 + Gemini 결정타",
+  "task": "ohmyc Phase 1 — 5-screen 페어 첫 만남 + Supabase 영속화 + Gemini 결정타",
   "spec_path": ".omc/specs/deep-interview-ohmyc-mvp.md",
   "deadline_kst": "2026-04-26T18:00:00+09:00",
   "track": "Business & Applications",
@@ -10,7 +10,8 @@
       "id": "US-001",
       "title": "Phase 0 — 인프라 셋업 (Next.js 15 + Supabase + Vercel)",
       "priority": 1,
-      "passes": false,
+      "passes": true,
+      "evidence": "Next.js 15.5.15 / package.json·next.config.ts·tsconfig.json·tailwind.config.ts·postcss.config.mjs 존재. .env.local 6개 키(Gemini 4 + Supabase URL/anon) 박힘. supabase/migrations/{0001_init,0002_production_loop}.sql 적용. https://ohmyc-hackathon-prep.vercel.app deploy 검증.",
       "acceptanceCriteria": [
         "package.json 생성 + Next.js 15 App Router + TypeScript + Tailwind CSS 의존성 설치 완료",
         "next.config.ts / tsconfig.json / tailwind.config.ts / postcss.config.mjs 존재",
@@ -25,7 +26,8 @@
       "id": "US-002",
       "title": "Phase 0.5 — 디자인 시스템 통합 (Pretendard + colors_and_type.css)",
       "priority": 2,
-      "passes": false,
+      "passes": true,
+      "evidence": "app/globals.css에 colors_and_type.css 통합, app/fonts/pretendard.ts (next/font/local) PretendardVariable.woff2 로드. tailwind.config.ts 토큰 매핑 완료. public/assets/{ohmyc-mark,ohmyc-wordmark}.svg 복사. WelcomeScreen·MeetingScreen·PromiseScreen에서 --tint #FF8552 단일 액센트 + Pretendard 헤드라인 렌더 검증.",
       "acceptanceCriteria": [
         "design/ohmyc-design-system/colors_and_type.css 가 app/globals.css에 import 또는 인라인 통합",
         "design/ohmyc-design-system/fonts/PretendardVariable.woff2 가 public/fonts/ 또는 app/fonts/에 복사",
@@ -39,7 +41,8 @@
       "id": "US-003",
       "title": "Phase 1 — 데이터 레이어 (Supabase 익명 인증 + CRUD)",
       "priority": 3,
-      "passes": false,
+      "passes": true,
+      "evidence": "lib/supabase.ts (브라우저) + lib/supabase-server.ts. lib/anon-user.ts (sessionStorage 캐시 + crypto.randomUUID 폴백). lib/pair-session.ts (getOrCreatePairSession). lib/todos.ts (createTodo + getDueTodos + listTodoHistory + markTodoCompleted + snoozeTodo + sessionStorage fallback + 8분 cooldown). lib/types.ts (PairSession / Todo / MemoryItem). 라이브 URL에서 새로고침 후 동일 페어 세션 복귀 검증.",
       "acceptanceCriteria": [
         "lib/supabase.ts 에 createClient (브라우저용, NEXT_PUBLIC 키만)",
         "lib/anon-user.ts 에 getOrCreateAnonUserId() — sessionStorage 캐시 + crypto.randomUUID() 폴백",
@@ -51,24 +54,28 @@
     },
     {
       "id": "US-004",
-      "title": "Phase 2 — UI 컴포넌트 (Avatar / Button / Screen / LogoLockup / StepDots)",
+      "title": "Phase 2 — UI 컴포넌트 (Avatar / Button + ScreenShell 인라인 대체)",
       "priority": 4,
-      "passes": false,
+      "passes": true,
+      "evidence": "components/Avatar.tsx (Breathe + BloomCircle, 63 LOC). components/Button.tsx (capsule primary/ghost + omc-pulse-on-tap, 50 LOC). ScreenShell은 app/page.tsx 내 인라인 헬퍼로 5 화면 공유 (Screen.tsx 별도 파일 미작성 — acceptance 정정). LogoLockup·StepDots는 v2로 보류 (해커톤 5-screen에 사용처 없음). 채팅 UI artifact 0건 검증 (말풍선/하단 입력 바/사이드바/User:Assistant: 라벨 grep 0 hits).",
       "acceptanceCriteria": [
         "components/Avatar.tsx — Breathe 애니메이션 클래스 적용 + radial-gradient apricot bloom + size prop",
         "components/Button.tsx — capsule (radius 980px) primary/secondary/ghost variant + Pulse on tap",
-        "components/Screen.tsx — Welcome/Meeting/Memo/Promise/Confirm 공통 scaffold (background prop, footer slot, padTop)",
-        "components/LogoLockup.tsx — ohmyc 로고 SVG (mark + wordmark)",
-        "components/StepDots.tsx — 진행도 표시 5개 dots, dark/light variant",
+        "ScreenShell (app/page.tsx 인라인) — Welcome/Meeting/Memo/Promise/Confirm 공통 scaffold (background prop, padTop)",
         "design/ohmyc-design-system/ui_kits/onboarding/*.jsx 패턴을 TSX로 포팅 (스타일 인라인 또는 globals.css)",
         "각 컴포넌트가 채팅 UI artifact 0건 (말풍선·하단 입력 바·사이드바 ❌)"
+      ],
+      "deferred_to_v2": [
+        "components/LogoLockup.tsx — 5-screen에 직접 사용처 없음, v2 헤더 도입 시",
+        "components/StepDots.tsx — 5-screen 진행도 표시 미사용, v2 멀티-스텝 흐름 도입 시"
       ]
     },
     {
       "id": "US-005",
       "title": "Phase 3 — 5 화면 페이지 (Welcome → Meeting → Memo → Promise → Confirm)",
       "priority": 5,
-      "passes": false,
+      "passes": true,
+      "evidence": "app/page.tsx step state machine (0~6) — 0=Welcome / 1=Meeting / 2=Memo / 3=Promise / 4=Confirm / 5=Pair Home / 6=Alarm. Welcome 다크 캔버스 + BloomCircle Breathe + 'Welcome 카피' (비-LLM 고정). Meeting Avatar Breathe + 'PAIR · 세린' 라벨 + '처음 만나서 반가워. 네 약속 내가 챙길게.' (반말). Memo B 메모지 + 한 줄 underline 인풋 (maxLength 30) + '이 약속 맡길게요'. Promise warm-paper 카드 (rotate -1.4deg, warm shadow) + lib/reminder-heuristic.ts derivePromiseHeadline 3 패턴 동적 (기본/이따 HH:MM/내일 HH:MM). Confirm Avatar + '약속 저장했어요. 이제 세린이 챙겨요'. 캐릭터 반말 / 시스템 존댓말 분리 검증.",
       "acceptanceCriteria": [
         "app/page.tsx 또는 app/(onboarding)/page.tsx 에 5-screen state machine (현재 step + 다음/이전)",
         "01 Welcome 화면 — 다크 캔버스 + bloom Breathe + *처음 만날 준비 됐어요* + 시작하기 CTA",
@@ -83,9 +90,10 @@
     },
     {
       "id": "US-006",
-      "title": "Phase 4 — Gemini LLM 통합 (Vercel AI SDK + 4키 로테이션 + flash-lite 보조 카피)",
+      "title": "Phase 4 — Gemini LLM 통합 (4키 로테이션 + flash-lite 보조 카피)",
       "priority": 6,
-      "passes": false,
+      "passes": true,
+      "evidence": "lib/gemini.ts (66 LOC) — 4키 라운드로빈 + isGeminiConfigured + MODELS.default(gemini-3-flash-preview) / MODELS.lite(gemini-2.5-flash-lite). app/api/promise-copy/route.ts — flash-lite 자연 한국어 보조 한 줄. app/api/greet/route.ts — 첫 만남 인사. app/page.tsx fetchPromiseCopyWithTimeout(1500ms) 비동기 + 폴백 템플릿. Welcome 첫 발화 비-LLM 고정. 결정타 카피는 lib/reminder-heuristic.ts derivePromiseHeadline (LLM 미사용, 3 패턴 정적 분기).",
       "acceptanceCriteria": [
         "@ai-sdk/google + ai (Vercel AI SDK) 의존성 설치",
         "lib/gemini.ts — 4개 키 라운드로빈 로테이션 + 레이트리밋 감지 시 폴백 + MODELS.default(gemini-3-flash-preview)·MODELS.lite(gemini-2.5-flash-lite) 분리",
@@ -101,7 +109,7 @@
       "title": "Phase 5 — Vercel 프로덕션 배포 + 시연 리허설 + 백업 영상",
       "priority": 7,
       "passes": false,
-      "progress": "Vercel deploy --prod 완료 (2026-04-26, https://ohmyc-hackathon-prep.vercel.app, 사용자 확인). 시연 리허설·백업 영상 잔여.",
+      "progress": "(2026-04-26 17:30 갱신) Vercel deploy --prod 완료 (https://ohmyc-hackathon-prep.vercel.app, 사용자 확인). 라이브 URL 5-screen 흐름 + 결정타 카피 + 새로고침 시연 동작 검증 완료. **잔여**: (a) 30초 백업 영상 사전 녹화 (OBS/QuickTime), (b) 시연 리허설 1회. — 다만 prod v1 작업으로 page.tsx가 PairHome 통합되어 라이브 URL 재배포 필요할 수 있음 (사용자 확인 필요).",
       "acceptanceCriteria": [
         "vercel deploy --prod 성공 + 라이브 URL 공개",
         "Vercel 환경 변수 등록 (Production·Preview 분리, 6개 키 모두)",
@@ -118,6 +126,7 @@
       "title": "Phase 6 — 회고 노트 + 메모리 갱신 후보 식별",
       "priority": 8,
       "passes": false,
+      "progress": "(2026-04-26 17:30 갱신) progress.txt에 Iteration 0 시작 로그만 박혀 있음. **잔여**: (a) Iteration 1·2 회고 (해커톤 MVP 완성·prod v1 pivot 사이클), (b) demo_script.md 화면 동선 = 실제 PairHome 화면 일치 검증 + 스크린샷 첨부, (c) MEMORY.md auto-append (1~3개 학습), (d) feedback_*·project_* 메모리 갱신 후보 식별.",
       "acceptanceCriteria": [
         "progress.txt 에 통한 것·막힌 것·다음 사이클 학습 데이터 정리",
         "MEMORY.md 인덱스 갱신 (Gemini 모델 ID 정정 + 새로 배운 것 1~3개 auto-append)",
@@ -127,17 +136,17 @@
     },
     {
       "id": "US-009",
-      "title": "Phase 7 — Home + Alarm 시뮬 (곁에 있는 페어, Stage 1·2 직접 입증)",
+      "title": "Phase 7 — Pair Home + Alarm 시뮬 (곁에 있는 페어, Stage 1·2 직접 입증)",
       "priority": 9,
       "passes": false,
-      "progress": "코드 완성 + production 재배포 (2026-04-26 https://ohmyc-hackathon-prep.vercel.app). 사용자 검증 잔여.",
+      "progress": "(2026-04-26 17:30 갱신) prod v1 작업으로 components/HomeScreen.tsx → components/PairHome.tsx 교체. PairHome (377 LOC) — 헤더(Avatar+stage+TemperaturePill) / 세린의 한 마디 카드 (LLM next-action) / 진행 중·체크인 대기·놓친 약속·세린이 기억하는 것 4 섹션 / MemoryPill highlighted 강조. AlarmScreen 동일. page.tsx 7-step 동작 (0~6). Supabase 영속화 + sessionStorage 폴백 검증. **잔여**: (a) 라이브 URL 재배포 (PairHome 통합 후), (b) 라이브 URL 7-step 흐름 사용자 시각 검증. — components/HomeScreen.tsx는 호출 0건 (deprecation 후보).",
       "acceptanceCriteria": [
-        "components/HomeScreen.tsx — 활성 약속 카드(결정타 헤드라인 + 보조 카피 + timeLabel + 입력 텍스트 메타) + Avatar Breathe + [새 약속 만들기]·[지금 약속 시간 받기] CTA. 완료 시 line-through + 완료 라벨",
+        "components/PairHome.tsx — 활성 약속·체크인 대기·놓친 약속·기억 4 섹션 + Avatar + TemperaturePill + 세린의 한 마디 + [새 약속 만들기]·체크인 CTA",
         "components/AlarmScreen.tsx — warm-paper 캔버스 + Avatar + 헤드라인 *시간 됐어. 다 했어?* + 입력 텍스트 카드 + [다 했어]·[다음에 알려줘]",
-        "page.tsx state machine 7-step (0~6). Confirm onNext → Home(5). 새로고침 진입 시 Home(5) 복귀 (이전 Confirm 4)",
+        "page.tsx state machine 7-step (0~6). Confirm onNext → PairHome(5). 새로고침 진입 시 PairHome(5) 복귀 (이전 Confirm 4)",
         "lib/todos.ts markTodoCompleted — Supabase update + sessionStorage 폴백 동기화",
-        "Home의 [지금 약속 시간 받기] → Alarm. Alarm [다 했어] → markTodoCompleted → Home(완료 표시). [다음에] → Home(그대로)",
-        "라이브 URL 검증: 7-step 흐름 + 새로고침 시 Home 직진 + 완료 상태 그대로",
+        "PairHome 체크인 → Alarm. Alarm [다 했어] → markTodoCompleted + /api/check-in → PairHome(완료 표시). [다음에] → snoozeTodo + /api/check-in → PairHome",
+        "라이브 URL 검증: 7-step 흐름 + 새로고침 시 PairHome 직진 + 완료 상태 그대로",
         "Stage 1 Memory 입증 (영속화 누적) + Stage 2 Action 입증 (시간 알림 시뮬·완료 마킹)"
       ]
     }

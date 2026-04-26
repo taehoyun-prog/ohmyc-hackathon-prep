@@ -280,7 +280,7 @@ function SlideHowItWorks() {
         className="mb-s-12 flex items-center justify-center gap-s-9"
         style={{ flexWrap: "wrap" }}
       >
-        <DiagramNode label="Pair" sub="anonymous · sessionStorage" tone="dark" />
+        <DiagramNode label="Pair" sub="anonymous · supabase" tone="dark" />
         <Arrow />
         <DiagramNode
           label="Memory"

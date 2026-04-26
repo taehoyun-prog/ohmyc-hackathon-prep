@@ -5,35 +5,129 @@
 ### 입력
 - PRD: prd.json (8 stories, US-001 ~ US-008)
 - 시연 스크립트: demo_script.md
-- 디자인 시스템: design/ohmyc-design-system/ (1차 SSOT, Pretendard + colors_and_type.css + ui_kits/onboarding/*.jsx 시안)
+- 디자인 시스템: design/ohmyc-design-system/ (1차 SSOT)
 - Gemini scripts: scripts/{hello_gemini,stream_gemini,gemini_client}.py (모델 ID: gemini-3-flash-preview, 4키 로테이션)
 
 ### 시간 박스
-- 시작: 2026-04-26T11:30+09:00 (Ralph iteration 0)
-- **마감: 2026-04-26T18:00+09:00 = 잔여 ~6시간 30분**
-- 파이널 피칭: 19:30~20:00 (팀당 5분, 6슬라이드)
+- 시작: 2026-04-26T11:30+09:00
+- 마감: 2026-04-26T18:00+09:00 = 잔여 ~6시간 30분
+- 파이널 피칭: 19:30~20:00
 
-### 환경 검증 완료
-- Node v24.14.0 ✓
-- npm 11.9.0 ✓
-- Vercel CLI 설치됨 (/opt/homebrew/bin/vercel)
-- Supabase CLI 미설치 — 웹 콘솔 + npm 패키지로 충분
-- .env 에 GEMINI_API_KEY 4개 박힘 ✓
-- .gitignore 에 .env 포함 ✓
-
-### 누락 발견 (CLAUDE.md 워크플로우 위반)
-- 3턴(위험 등록부·시연 지지대·가드레일 약속) 메모리 건너뜀 → Iteration 0에서 보강
-- prd.json·demo_script.md·ralph_handoff.md 3 파일 산출물 누락 → Iteration 0에서 작성
+### 환경 검증
+- Node v24.14.0 ✓ / npm 11.9.0 ✓
+- Vercel CLI 설치됨 / Supabase CLI 미설치 (웹 콘솔 + npm 패키지로 충분)
+- .env GEMINI_API_KEY 4개 ✓
 
 ### 모델 ID 충돌 인지
-- CLAUDE.md line 128: `gemini-2.5-flash` (outdated)
-- scripts/*.py 및 PRD R6-②: `gemini-3-flash-preview` (정본)
-- 사용자 결정 필요 — 일단 prd.json·ralph_handoff.md는 정본(`gemini-3-flash-preview`) 사용
+- CLAUDE.md `gemini-2.5-flash` (outdated) vs scripts/*.py·PRD `gemini-3-flash-preview` (정본)
+- 사용자 결정 → `gemini-3-flash-preview` 정본 채택, CLAUDE.md 정정 (사용자 직권 PRD 편집)
 
-### 다음 단계 (US-001 진입)
-- Phase 0 인프라 셋업 시작
-- Next.js 15 스캐폴드 위치: cwd 직접 (추측) — 기존 docs·design·scripts 평면 공존
-- npx create-next-app 또는 수동 셋업 (3턴 가드레일 "추상화 신설 금지"와 정합 위해 수동 권장)
+---
 
-### 학습 (다음 사이클로)
-- (미작성 — Phase 0 시작 후 갱신)
+## Iteration 1 (2026-04-26T11:35~17:00+09:00) — 해커톤 MVP 구현
+
+### 통한 것
+- US-001 인프라 셋업 ✓ — Next.js 15.5.15 + Tailwind + Supabase + Vercel link + .env.local 6키
+- US-002 디자인 시스템 통합 ✓ — Pretendard Variable + colors_and_type.css + tint #FF8552 단일
+- US-003 데이터 레이어 ✓ — anon-user / pair-session / todos / memories / types + sessionStorage 폴백 + 8분 cooldown
+- US-004 UI 컴포넌트 ✓ (acceptance 정정) — Avatar / Button. ScreenShell은 page.tsx 인라인 헬퍼로 대체. LogoLockup·StepDots는 v2.
+- US-005 5 화면 페이지 ✓ — Welcome → Meeting → Memo(B 메모지) → Promise(warm-paper) → Confirm + reminder-heuristic 결정타 3 패턴
+- US-006 Gemini 통합 ✓ — gemini.ts 4키 로테이션 + promise-copy(flash-lite 자연 한국어 보조) + greet
+- US-007 Vercel deploy ✓ — https://ohmyc-hackathon-prep.vercel.app, 사용자 라이브 검증
+- US-009 Home + Alarm 코드 작성 ✓ — HomeScreen + AlarmScreen + page.tsx 7-step 동작
+
+### 막힌 것
+- 결정타 카피가 LLM 자유 응답으로 흐려질 위험 → lib/reminder-heuristic.ts derivePromiseHeadline로 *비-LLM 정적 분기* 박음. 시스템 프롬프트 책임 0건.
+- 채팅 UI artifact 위험 (R-007) → 한 줄 underline 인풋 + 메모지 톤 placeholder + 카드 안 underline (하단 고정 X). 자가 reject 통과.
+- 시간 휴리스틱 부조화 ("저녁에 고기 먹고 싶어" → 점심 시간 catch) → 3 패턴 분기 (relative_hours / absolute / tomorrow) 박음.
+- 한국어 격조사 ("을/를") 어색함 → flash-lite 보조 카피로 자연화.
+- UX 클릭 응답성 → optimistic UI (await 제거) + brightness CSS active.
+
+### 학습
+- 결정타 = 비-LLM 고정 회로 분리가 핵심 (ADR-002 시드).
+- 한 줄 underline + 메모지 톤이 채팅 UI 회피의 가장 강한 자가 reject 통과 패턴.
+- Gemini 첫 콜드 스타트 1.5s 안에 안 떨어지면 폴백 카피로 우아하게 빠지는 게 정답 (R-001 plan_b 입증).
+
+---
+
+## Iteration 2 (2026-04-26T17:00~17:30+09:00) — Production v1 Pivot
+
+### 입력 (사용자 직권)
+"지금 작업 변경해야합니다. 온보딩, 해커톤 작업은 모두 끝났으며, 실제 프로덕션에 올릴만한 퀄리티로 변경해야합니다. 5축 P0/P1 — Pair Home / Real Agent Loop / Real Memory / Real Notification / AI 존재감 + 온도/Growth/부재복귀."
+
+### 워크플로우
+- Deep Interview (4 라운드) → `.omc/specs/deep-interview-ohmyc-prod-v1.md` (모호도 7.4%)
+- Ralplan consensus 2 cycles → `.omc/plans/ohmyc-prod-v1-planner-rev2.md` (Critic APPROVE)
+- Direct Claude 구현 (autopilot 미진입, 시간 박스 ~2-3h ~80% MVP target)
+
+### 신규 파일 (15개)
+- 마이그레이션: `supabase/migrations/0003_v1_schema.sql` (136 LOC, 6 신규 테이블 + memories.layer 컬럼) — **DB 적용 사용자 잔여**
+- 컴포넌트: PairHome (377), TemperaturePill (57), MemoryPill (66, highlighted prop)
+- lib: temperature.ts (73, 균형점 모델) / temperatures.ts (127) / agent-loop.ts (86) / memory-recall.ts (151)
+- API: agent-extract / check-in / next-action / push/subscribe / cron/check-due-and-decay
+- public/sw.js (99, push event + notificationclick + pushsubscriptionchange iOS R-4)
+
+### 회로 연결 (app/page.tsx 893 LOC)
+- HomeScreen → PairHome 교체 (step=5)
+- 부팅 시 getOrCreateTemperature + listRecentMemories(8) 동시 로드
+- partitionTodos() — reminder_time 기준 active/due/missed (6h 경계)
+- stage = getStage(temp, level) — 균형점 4단계
+- PairHome 진입 시 /api/next-action 자동 호출 → serineLine + memoryIds 상태 업데이트 (4s abort)
+- MemoScreen onNext → createTodo + agent-extract 병렬 호출 (2.8s budget) → fact 메모리 영속
+- Alarm done/snooze → markTodoCompleted/snoozeTodo + addTodoEventMemory + /api/check-in 호출
+- 토스트 카피 캐릭터 반말로 정정
+
+### 라이브 검증
+- npx tsc --noEmit → 0 errors
+- npm run build → 13 pages / 8 API 라우트 성공
+- POST /api/next-action → 200 (cold 17s, real session 2-4s 예상)
+- POST /api/agent-extract → 200 (2.69s) — {"intent":"promise","time":null,"emotion":"neutral","importance":"medium"}
+- GET / → 200 (108ms)
+
+### 평가축 발현 (4축)
+- 온도 (Bond State) — 코드 ✓ / 회로 🟡 정적 / 라이브 UI만
+- 성장 (Growth) — 코드 ✓ / 회로 ✓ / 라이브 메모리 누적·next-action 반영
+- 부재 복귀 (P1-3) — ❌ 미작성
+- 기억 투명성 (G3) — 코드 ✓ / 회로 ✓ / 라이브 세린 한 마디 + MemoryPill 강조
+- Real Agent Loop (G2) — 코드 ✓ / 회로 ✓ / 라이브 agent-extract + fact 메모리
+- Real Notification (G4) — 코드 🟡 / 회로 ❌ / 라이브 0건 (sw.js·subscribe·web-push 발송·VAPID·CRON_SECRET·vercel.json cron 미연결)
+
+### 막힌 것 (코드 박혔는데 회로 끊김)
+1. Supabase migration 0003 적용 — 사용자가 직접 SQL 붙여야 함
+2. sw.js register + pushManager.subscribe 클라이언트 hook 미작성
+3. cron route web-push 발송 코드 미작성 (TODO 주석)
+4. VAPID 키 미발급 / CRON_SECRET 미발급 / vercel.json cron 미설정
+
+### 학습
+- ralplan consensus 2 cycles로 Critic APPROVE까지 도달 — 1 cycle은 부족, 3 cycle은 한계 효용 극저 (사용자 결정 영속이 핵심).
+- 균형점 온도 모델은 "단방향 상승"보다 "기준값으로 회귀"가 자연스러운 캐릭터 톤 — temperature-v0.1.md SSOT 채택 정답.
+- 결정타 카피 = lib/reminder-heuristic.ts final write 권한 강제 (LLM 응답이 시간 패턴 시도해도 클라이언트가 덮어씀, ADR-002 입증).
+- Memory recall marker `<!-- mem: id1, id2 -->` 자동화 — LLM 응답에 박혀 클라이언트가 가시 카피에서 분리 (G3 평가축 직결).
+- 4 평가축 중 3축이 1 사이클(2~3h) 안에 발현 가능 — Real Notification만 인프라 의존 (1h 추가).
+
+---
+
+## 현재 상태 (2026-04-26T17:30+09:00)
+
+### 해커톤 prd.json 마킹
+- US-001 ~ US-006 ✓ passes:true (6/9)
+- US-007 / US-008 / US-009 progress 갱신, passes:false (3/9 잔여)
+
+### Ralph completion_promise_conditions_AND
+1. prd.json 전체 stories[].passes = true → 6/9 (67%)
+2. vercel deploy + 라이브 5-screen + 새로고침 → ✓ (PairHome 통합 후 재배포 필요할 수 있음)
+3. demo_script.md = 실제 화면 (스크린샷) → 미수행
+4. progress.txt 회고 → ✓ (이 파일)
+5. MEMORY.md auto-append → 미수행
+
+### 다음 손 분기 (사용자 결정 대기)
+**A. 해커톤 박스 종결 우선** (US-007/8/9 잔여 acceptance 통과)
+   - 30초 백업 영상 녹화 + demo_script 스크린샷 첨부 + MEMORY.md auto-append
+   - prod v1 작업은 별 사이클로 정리
+
+**B. Prod v1 박스 진행** (P0-2 ~ P0-7 + P1)
+   - migration 0003 적용 / VAPID·CRON_SECRET 발급 / web-push 발송 코드 / vercel.json cron / sw.js register hook
+   - 부재 복귀 / weekly-summary / 자가 reject grep / Playwright e2e
+
+**C. 둘 다 — 해커톤 종결 후 prod v1 새 사이클**
+   - prd.json에 US-010+ 추가 또는 새 prd.json (`.omc/prd-prod-v1.json`)

@@ -1,4 +1,4 @@
-# Ralph Handoff — ohmyc 해커톤 MVP
+# Ralph Handoff — ohmyc Phase 1
 
 ## 진입점
 
@@ -15,21 +15,19 @@
 ## Critic 추천: `--critic=architect`
 
 근거:
-- 9시간(잔여 ~6.5시간) 박스 + Supabase·Gemini 통합·5-screen 페이지 = **architectural 결정 다수**
+- Supabase·Gemini 통합·5-screen 페이지 = **architectural 결정 다수**
 - `architect` Sonnet 동급(STANDARD)으로 충분, opus 격상은 보안·복잡 multi-system 통합 시점에만
-- `critic`(클로드 critic 에이전트)이 더 강한 challenge를 주지만 시간 박스에 부담
+- `critic`(클로드 critic 에이전트)이 더 강한 challenge를 주지만 iteration 부담 큼
 - `codex`는 외부 호출이라 시연 시간 압박 시 폴백이 약함
 
 → **`oh-my-claudecode:ralph --critic=architect` 권장**.
 
-## 시간 박스 (잔여)
+## Phase 1 진행 우선순위
 
-- 현재 시각 (추정): 2026-04-26T11:30+09:00
-- **18:00 KST 제출 마감** = 잔여 약 **6시간 30분**
 - Ralph iteration 단위: Phase 0 → 6, 각 Phase ~30-90분 추정
-- 컷 우선순위 (마감 임박 시): Phase 5 배포 > Phase 4 LLM > Phase 3 5화면 > Phase 6 회고
+- 컷 우선순위 (범위 조정 시): Phase 5 배포 > Phase 4 LLM > Phase 3 5화면 > Phase 6 회고
 
-## Ralph 매 iteration 출력 포맷 (CLAUDE.md line 77-91)
+## Ralph 매 iteration 출력 포맷 (CLAUDE.md § 1 참조)
 
 1. PRD 스토리별 pass/fail 표 + 직전 대비 델타
 2. PRD에 없던 새 위험 1~3개 + 등장 트리거
@@ -80,5 +78,5 @@
 
 - 결정타 카피 LLM 자유 응답으로 흐려질 가능성 발견 시 즉시 정지 + 사용자에게 보고
 - Supabase 프로젝트 생성·키 발급 등 외부 인터랙션 필요 시 한 줄 통보 후 진행
-- 18:00 마감 30분 전(17:30)에 미완성이면 컷 정책 적용 + 사용자 통보
+- Phase 범위 조정이 필요한 시점에 컷 우선순위 적용 + 사용자 통보
 - 사용자 "stop"·"cancel" 시 즉시 종료

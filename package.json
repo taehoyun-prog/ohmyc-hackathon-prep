@@ -2,7 +2,7 @@
   "name": "ohmyc",
   "version": "0.1.0",
   "private": true,
-  "description": "ohmyc — 대중의 첫 캐릭터 에이전트. 페어 첫 만남 60초 데모 (해커톤 MVP V0.1)",
+  "description": "ohmyc — 대중의 첫 캐릭터 에이전트. 페어 첫 만남 시연 (Phase 1)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

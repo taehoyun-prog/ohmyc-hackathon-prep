@@ -32,3 +32,6 @@ build/
 
 # Supabase CLI 임시 산출물 (link / db push 후 생성)
 supabase/.temp/
+
+.gemini/
+gha-creds-*.json

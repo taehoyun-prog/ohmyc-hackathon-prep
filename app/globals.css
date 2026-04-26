@@ -94,6 +94,9 @@
 
   /* ----- focus ring -------------------------------------------- */
   --focus-ring: 0 0 0 3px rgba(255,133,82,0.35);
+
+  /* ----- app shell --------------------------------------------- */
+  --shell-max-width: 430px;
 }
 
 /* ============================================================
@@ -122,7 +125,7 @@ body {
 
 @keyframes omc-breathe {
   0%, 100% { transform: scale(1.000); }
-  50%      { transform: scale(1.020); }
+  50%      { transform: scale(1.008); }
 }
 
 @keyframes omc-pulse {
@@ -147,3 +150,33 @@ body {
 .omc-pulse-on-tap:hover:not(:disabled) {
   filter: brightness(0.96);
 }
+
+/* ============================================================
+   Typing dots — 카톡 스타일 사인파 (점 3개 staggered bounce).
+   채팅 pending indicator 전용. 다른 곳에 재사용 금지.
+   ============================================================ */
+
+@keyframes omc-typing-bounce {
+  0%, 60%, 100% { transform: translateY(0);    opacity: 0.35; }
+  30%           { transform: translateY(-7px); opacity: 1;    }
+}
+
+.omc-typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.omc-typing-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--fg-2);
+  animation: omc-typing-bounce 1.2s var(--ease-soft) infinite;
+  will-change: transform, opacity;
+}
+
+.omc-typing-dot:nth-child(2) { animation-delay: 0.18s; }
+.omc-typing-dot:nth-child(3) { animation-delay: 0.36s; }
