@@ -160,6 +160,7 @@ const INTENT_LABEL: Record<AgentExtract["intent"], string> = {
   emotion: "기분",
   pattern: "습관",
   chat: "대화",
+  check: "조회",
 };
 
 const IMPORTANCE_LABEL: Record<AgentExtract["importance"], string> = {
