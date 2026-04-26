@@ -26,11 +26,12 @@ const ITEMS: {
 export function CareTab({ onOpenTodo, onOpenCalendar }: Props) {
   return (
     <div
-      className="min-h-screen px-5 pt-12"
-      style={{ background: "var(--bg-canvas-light)", paddingBottom: 96 }}
+      className="h-full flex flex-col overflow-hidden"
+      style={{ background: "var(--bg-canvas-light)" }}
     >
-      <h1
-        className="mb-2 font-display"
+      <div className="flex-1 overflow-y-auto omc-scroll-y px-5 pt-12 pb-32">
+        <h1
+          className="mb-2 font-display"
         style={{
           fontSize: 28,
           lineHeight: 1.25,
@@ -84,7 +85,8 @@ export function CareTab({ onOpenTodo, onOpenCalendar }: Props) {
         ))}
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 function CareIcon({ name, active }: { name: string; active: boolean }) {

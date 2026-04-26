@@ -52,14 +52,17 @@ export function PairHome({
         : character.homeBubble;
   return (
     <div
-      className="min-h-screen flex flex-col"
-      style={{ background: "var(--bg-canvas-light)", paddingBottom: 80 }}
+      className="h-full flex flex-col"
+      style={{ background: "var(--bg-canvas-light)" }}
     >
       <header
-        className="flex items-center justify-between"
+        className="sticky top-0 z-40 flex items-center justify-between"
         style={{
           padding: "20px 24px",
           borderBottom: "1px solid var(--border-soft)",
+          background: "rgba(245,245,247,0.72)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
         }}
       >
         <div className="flex items-center" style={{ gap: 12 }}>
@@ -91,8 +94,8 @@ export function PairHome({
       </header>
 
       <main
-        className="flex-1 flex flex-col"
-        style={{ padding: "24px", gap: 24 }}
+        className="flex-1 overflow-y-auto omc-scroll-y flex flex-col"
+        style={{ padding: "24px", gap: 24, paddingBottom: 40 }}
       >
         <div className="flex flex-col items-center gap-3 pb-2 pt-2">
           <CharacterFigure character={character} size={180} bloom />
@@ -204,11 +207,14 @@ export function PairHome({
       </main>
 
       <footer
-        className="flex flex-col items-center"
+        className="flex flex-col items-center shrink-0"
         style={{
           padding: "16px 24px 24px",
           borderTop: "1px solid var(--border-soft)",
+          background: "var(--bg-canvas-light)",
           gap: 8,
+          position: "relative",
+          zIndex: 40
         }}
       >
         <Button onClick={onNewPromise} full>

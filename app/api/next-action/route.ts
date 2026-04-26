@@ -17,6 +17,8 @@ import {
 } from "@/lib/memory-recall";
 import { getStage } from "@/lib/temperature";
 import { getOrCreateTemperature } from "@/lib/temperatures";
+import { listTodoHistory } from "@/lib/todos";
+import { listChatMessages } from "@/lib/chat-messages";
 
 export const runtime = "nodejs";
 
@@ -39,24 +41,27 @@ export async function POST(req: Request) {
   }
 
   try {
-    const [memories, temp] = await Promise.all([
+    const [memories, temp, todos, historyRaw] = await Promise.all([
       recallMemories(pairSessionId),
       getOrCreateTemperature(pairSessionId),
+      listTodoHistory(pairSessionId, 10),
+      listChatMessages(pairSessionId, 6, false),
     ]);
+    const history = [...historyRaw].reverse();
 
     const stage = getStage(Number(temp.current_temp), temp.level);
-    const systemPrompt = buildSerinePrompt(memories, stage);
+    const systemPrompt = buildSerinePrompt(memories, stage, todos, history);
 
     const userPrompt = userMessage
       ? `사용자가 방금 한 말: "${userMessage}".
-이 말과 세린의 기억을 함께 보고, 지금 필요한 응답을 스스로 판단해서 한 문장으로 답해.
-입력 문장을 그대로 반복하지 말고, 관련 기억이 있을 때만 자연스럽게 반영해.
+이 말과 세린의 기억, 현재 약속을 함께 보고 지금 필요한 응답을 스스로 판단해서 한 문장으로 답해.
+입력 문장을 그대로 반복하지 말고, 관련 기억이나 약속이 있을 때만 자연스럽게 반영해.
 약속·할 일이 들어 있으면 챙기겠다는 뜻을 짧게 보태.
 "3시간 뒤에/이따 HH:MM에/내일 HH:MM에 한번 물어볼게." 같은 시간 약속 카피는 만들지 마 (다른 시스템이 박는다).
 한 문장 또는 두 문장.`
-      : `위 기억과 현재 관계 단계를 바탕으로, 홈에서 사용자에게 지금 건넬 한 문장만 응답.
+      : `위 기억과 현재 관계 단계, 약속 상태를 바탕으로 홈에서 사용자에게 지금 건넬 한 문장만 응답.
 기억을 나열하지 말고 세린이 스스로 맥락을 판단한 말처럼 쓴다.
-관련 기억이 없으면 억지로 개인화하지 말고 조용히 다음 행동을 열어준다.
+관련 기억이나 약속이 없으면 억지로 개인화하지 말고 조용히 다음 행동을 열어준다.
 "3시간 뒤에/이따 HH:MM에/내일 HH:MM에 한번 물어볼게." 같은 시간 약속 카피는 만들지 마. 그건 다른 시스템이 박는다.
 한 문장.`;
 

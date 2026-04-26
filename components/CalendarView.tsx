@@ -98,10 +98,18 @@ export function CalendarView({
 
   return (
     <div
-      className="min-h-screen px-5 pt-10"
-      style={{ background: "var(--bg-canvas-light)", paddingBottom: 96 }}
+      className="h-full flex flex-col overflow-hidden"
+      style={{ background: "var(--bg-canvas-light)" }}
     >
-      <header className="flex items-center justify-between mb-4">
+      <header
+        className="sticky top-0 z-30 flex items-center justify-between px-5 pt-10 pb-4"
+        style={{
+          background: "rgba(245,245,247,0.72)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid var(--border-soft)",
+        }}
+      >
         <button
           type="button"
           onClick={onBack}
@@ -163,10 +171,11 @@ export function CalendarView({
         </button>
       </header>
 
-      <div
-        className="grid grid-cols-7 mb-2 text-center text-[11px]"
-        style={{ color: "var(--fg-3)" }}
-      >
+      <div className="flex-1 overflow-y-auto omc-scroll-y px-5 pt-4 pb-32">
+        <div
+          className="grid grid-cols-7 mb-2 text-center text-[11px]"
+          style={{ color: "var(--fg-3)" }}
+        >
         {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
           <div key={d}>{d}</div>
         ))}
@@ -342,5 +351,6 @@ export function CalendarView({
         </div>
       )}
     </div>
+  </div>
   );
 }

@@ -464,7 +464,7 @@ export function ChatTab({ pairSessionId }: Props) {
 
   return (
     <div
-      className="flex h-screen flex-col"
+      className="flex h-[100dvh] flex-col"
       style={{ background: "var(--bg-canvas-light)" }}
     >
       <header className="flex items-center gap-3 border-b border-[rgba(0,0,0,0.06)] bg-white/85 px-4 py-3 backdrop-blur-xl">
@@ -488,7 +488,7 @@ export function ChatTab({ pairSessionId }: Props) {
       <div
         ref={scrollerRef}
         className="flex-1 overflow-y-auto px-4 py-5"
-        style={{ paddingBottom: 96 }}
+        style={{ paddingBottom: 96, WebkitOverflowScrolling: "touch" }}
       >
         <div className="flex flex-col gap-3">
           {messages.map((m) => {

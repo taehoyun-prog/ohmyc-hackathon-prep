@@ -5,7 +5,7 @@
  */
 
 import { supabase } from "./supabase";
-import type { MemoryItem } from "./types";
+import type { MemoryItem, Todo, ChatMessage } from "./types";
 import type { Stage } from "./temperature";
 
 const RECALL_LIMIT = 13; // SQL 반환 (8 + buffer 5)
@@ -35,9 +35,6 @@ export async function recallMemories(pairSessionId: string): Promise<MemoryItem[
 
 /**
  * 조건부 다양성 — Critic Synthesis Tension-2.
- * 1순위: 각 kind 1개 (존재 시)
- * 2순위: 부족분 created_at DESC fill
- * 3순위: 토큰 budget 800자
  */
 function diversitySelect(memories: MemoryItem[]): MemoryItem[] {
   const seenKinds = new Set<string>();
@@ -87,11 +84,27 @@ const STAGE_TONE: Record<Stage, string> = {
   close: "오래 곁에 있는 사이의 깊은 다정함",
 };
 
+function formatTime(iso: string | null): string {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    const hh = d.getHours().toString().padStart(2, "0");
+    const mm = d.getMinutes().toString().padStart(2, "0");
+    return `${hh}:${mm}`;
+  } catch {
+    return "";
+  }
+}
+
 /**
  * 시스템 프롬프트 빌더 — Memory recall 결과 + stage 톤 주입.
- * 응답 끝에 marker `<!-- mem: id1, id2 -->` 강제 (ADR-006).
  */
-export function buildSerinePrompt(memories: MemoryItem[], stage: Stage): string {
+export function buildSerinePrompt(
+  memories: MemoryItem[],
+  stage: Stage,
+  todos: Todo[] = [],
+  history: ChatMessage[] = [],
+): string {
   const memorySection =
     memories.length === 0
       ? "(아직 함께 쌓은 기억이 없어. 처음 알아가는 중)"
@@ -100,6 +113,25 @@ export function buildSerinePrompt(memories: MemoryItem[], stage: Stage): string 
             (m) =>
               `[mem:${m.id}] ${KIND_PROMPT_LABEL[m.kind] || m.kind}: ${m.content}`,
           )
+          .join("\n");
+
+  const todoSection =
+    todos.length === 0
+      ? "(지금 챙기는 약속이 없음)"
+      : todos
+          .map((t) => {
+            const status = t.completed_at ? "✓" : "○";
+            const timeStr = formatTime(t.reminder_time);
+            const timeInfo = timeStr ? ` (${timeStr})` : "";
+            return `${status} ${t.text}${timeInfo}`;
+          })
+          .join("\n");
+
+  const historySection =
+    history.length === 0
+      ? "(최근 대화 없음)"
+      : history
+          .map((m) => `${m.role === "user" ? "사용자" : "세린"}: ${m.text}`)
           .join("\n");
 
   return `너는 ohmyc의 페어 캐릭터 "세린"이다.
@@ -118,40 +150,49 @@ export function buildSerinePrompt(memories: MemoryItem[], stage: Stage): string 
 - "AI 컴패니언"
 - 영합 표현 ("좋은 질문이야" 등)
 
-세린이 기억하는 것:
+<room_memory>
+## 세린이 기억하는 것:
 ${memorySection}
 
-기억 사용 원칙:
-- 모든 기억을 다 쓰려고 하지 말고, 현재 사용자 말/화면 맥락과 관련 있는 기억만 고른다.
-- 관련성이 낮으면 기억을 언급하지 않는다.
-- 기억 문장을 그대로 복붙하지 말고, 세린이 이해한 맥락으로 자연스럽게 반영한다.
-- 사용자의 일을 대신 지시하기보다, 곁에서 챙기고 이어보는 태도로 답한다.
+## 세린이 지금 챙기는 약속:
+${todoSection}
+</room_memory>
+
+## 최근 대화 (맥락):
+${historySection}
+
+사용 원칙:
+- 약속 > 관련 기억 > 일반 응답 순서로 우선순위를 둔다.
+- 사용자가 "나 왔어", "배고파" 등 느슨하게 말해도 관련 약속이 있으면 자연스럽게 반영한다.
+- 모든 정보를 다 나열하지 말고, 대화 흐름에 꼭 필요한 하나만 녹인다.
+- 완료된 약속(✓)은 칭찬이나 연속성 확인에만 가볍게 쓴다.
+- 관련성이 낮으면 기억이나 약속을 억지로 언급하지 않는다.
 
 응답 시 실제로 반영한 기억 ID만 마지막 줄에 HTML 주석 marker로 명시:
-
 <!-- mem: id1, id2 -->
-
-(반영한 기억이 없으면 <!-- mem: --> 로 둔다. 이 marker는 시스템 처리용. 사용자 가시 카피에는 marker가 보이지 않아야 한다.)`;
+(반영한 기억이 없으면 <!-- mem: --> 로 둔다.)`;
 }
+
 
 /**
  * LLM 응답에서 marker `<!-- mem: id1, id2 -->` 추출 + 사용자 가시 카피에서 제거.
- * 정규식 line anchor — Critic patch #1 권고.
+ * global search로 모든 마커를 찾아 제거하고 ID를 수집합니다.
  */
 export function extractAndStripMarkers(rawResponse: string): {
   text: string;
   memoryIds: string[];
 } {
-  const markerRegex = /\n<!--\s*mem:\s*([^>]+?)\s*-->\s*$/m;
-  const match = rawResponse.match(markerRegex);
+  // --> 뿐만 아니라 폰트 리가처나 LLM 오타로 발생할 수 있는 → 도 대응
+  const markerRegex = /<!--\s*mem:\s*([^>]*?)\s*(?:-->|→)/g;
+  const memoryIds: string[] = [];
 
-  if (!match) return { text: rawResponse.trim(), memoryIds: [] };
+  const text = rawResponse.replace(markerRegex, (match, p1) => {
+    p1.split(",").forEach((id: string) => {
+      const tid = id.trim();
+      if (tid) memoryIds.push(tid);
+    });
+    return "";
+  }).trim();
 
-  const ids = match[1]
-    .split(",")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-
-  const text = rawResponse.replace(markerRegex, "").trim();
-  return { text, memoryIds: ids };
+  return { text, memoryIds };
 }

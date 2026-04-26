@@ -31,12 +31,13 @@ type AppendInput = {
 export async function listChatMessages(
   pairSessionId: string,
   limit: number = 200,
+  ascending: boolean = true,
 ): Promise<ChatMessage[]> {
   if (!supabase) {
     const list = fallbackStore.get(pairSessionId) ?? [];
-    return [...list]
-      .sort((a, b) => (a.seq ?? 0) - (b.seq ?? 0))
-      .slice(0, limit);
+    const sorted = [...list].sort((a, b) => (a.seq ?? 0) - (b.seq ?? 0));
+    if (!ascending) sorted.reverse();
+    return sorted.slice(0, limit);
   }
 
   try {
@@ -44,7 +45,7 @@ export async function listChatMessages(
       .from("chat_messages")
       .select("*")
       .eq("pair_session_id", pairSessionId)
-      .order("seq", { ascending: true })
+      .order("seq", { ascending })
       .limit(limit);
 
     if (error || !data) {

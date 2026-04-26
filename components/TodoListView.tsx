@@ -29,8 +29,8 @@ export function TodoListView({
 
   return (
     <div
-      className="flex min-h-screen flex-col"
-      style={{ background: "var(--bg-canvas-light)", paddingBottom: 96 }}
+      className="flex h-full flex-col"
+      style={{ background: "var(--bg-canvas-light)" }}
     >
       <header
         className="sticky top-0 z-30 flex items-center justify-between"
@@ -106,8 +106,8 @@ export function TodoListView({
       </header>
 
       <main
-        className="flex flex-1 flex-col"
-        style={{ padding: "20px 24px", gap: 24 }}
+        className="flex-1 overflow-y-auto omc-scroll-y flex flex-col"
+        style={{ padding: "20px 24px", gap: 24, paddingBottom: 120 }}
       >
         {totalOpen === 0 && completedCount === 0 ? (
           <EmptyState onAdd={onAdd} />

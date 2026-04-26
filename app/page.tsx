@@ -159,6 +159,7 @@ const INTENT_LABEL: Record<AgentExtract["intent"], string> = {
   record: "기록",
   emotion: "기분",
   pattern: "습관",
+  chat: "대화",
 };
 
 const IMPORTANCE_LABEL: Record<AgentExtract["importance"], string> = {
@@ -455,7 +456,8 @@ export default function Page() {
   const alarmTimeLabel = formatHHMM(alarmTarget?.reminder_time ?? null);
 
   return (
-    <main className="mx-auto relative" style={{ maxWidth: 430 }}>
+    <>
+    <main className="mx-auto relative min-h-[100dvh] flex flex-col" style={{ maxWidth: 430 }}>
       {step === 0 && <WelcomeScreen onNext={() => setStep(1)} />}
       {step === 1 && <MeetingScreen onNext={() => setStep(2)} />}
       {step === 2 && (
@@ -674,45 +676,64 @@ export default function Page() {
         <MeTab
           memoryCount={recentMemories.length}
           todoCount={todoHistory.length}
+          onManageMemories={() => setTab("chat")}
+          onManagePromises={() => {
+            setTab("care");
+            setCareView("todoList");
+          }}
+          onToggleSync={async () => {
+            if (!("Notification" in window)) {
+              setToast("이 브라우저는 알림을 지원하지 않아");
+              return;
+            }
+            const perm = await Notification.requestPermission();
+            if (perm === "granted") {
+              setToast("실시간 알림 연동이 활성화됐어");
+            } else {
+              setToast("알림 권한이 거부되었어");
+            }
+          }}
         />
       )}
-      {step >= 5 && <AppFooter currentTab={tab} onTabChange={setTab} />}
-
-      <NewPromiseSheet
-        pairSessionId={pairSession?.id ?? null}
-        open={sheet === "newPromise"}
-        initialDate={newPromiseInitialDate}
-        onClose={() => {
-          setSheet(null);
-          setNewPromiseInitialDate(null);
-        }}
-        onSubmit={async ({ text, reminderTime }) => {
-          await submitNewPromise(text, reminderTime);
-          setToast("세린이 약속을 저장했어");
-        }}
-      />
-
-      {toast && (
-        <div
-          className="rounded-capsule"
-          style={{
-            position: "fixed",
-            top: 16,
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "10px 16px",
-            background: "rgba(29,29,31,0.88)",
-            color: "var(--fg-on-dark)",
-            fontSize: 13,
-            zIndex: 50,
-            maxWidth: 360,
-            textAlign: "center",
-          }}
-        >
-          {toast}
-        </div>
-      )}
     </main>
+
+    <NewPromiseSheet
+      pairSessionId={pairSession?.id ?? null}
+      open={sheet === "newPromise"}
+      initialDate={newPromiseInitialDate}
+      onClose={() => {
+        setSheet(null);
+        setNewPromiseInitialDate(null);
+      }}
+      onSubmit={async ({ text, reminderTime }) => {
+        await submitNewPromise(text, reminderTime);
+        setToast("세린이 약속을 저장했어");
+      }}
+    />
+
+    {toast && (
+      <div
+        className="rounded-capsule"
+        style={{
+          position: "fixed",
+          top: 16,
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "10px 16px",
+          background: "rgba(29,29,31,0.88)",
+          color: "var(--fg-on-dark)",
+          fontSize: 13,
+          zIndex: 50,
+          maxWidth: 360,
+          textAlign: "center",
+        }}
+      >
+        {toast}
+      </div>
+    )}
+
+    {step >= 5 && <AppFooter currentTab={tab} onTabChange={setTab} />}
+    </>
   );
 }
 
@@ -731,10 +752,12 @@ function ScreenShell({
         : "var(--bg-canvas-light)";
   return (
     <div
-      className="flex min-h-screen flex-col items-center justify-center px-s-9 py-s-12 text-center"
+      className="flex min-h-[100dvh] flex-col items-center justify-start px-s-9 py-s-12 text-center overflow-y-auto omc-scroll-y"
       style={{ backgroundColor: bg }}
     >
-      {children}
+      <div className="flex min-h-full flex-col items-center justify-center w-full">
+        {children}
+      </div>
     </div>
   );
 }

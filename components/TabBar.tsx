@@ -20,7 +20,7 @@ const TABS: { key: TabKey; label: string; icon: string }[] = [
 export function TabBar({ current, onChange }: Props) {
   return (
     <nav
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-[rgba(0,0,0,0.06)] bg-white/85 backdrop-blur-xl"
+      className="fixed bottom-0 left-1/2 z-[52] w-full max-w-md -translate-x-1/2 border-t border-[rgba(0,0,0,0.06)] bg-white/85 backdrop-blur-xl"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <ul className="flex h-[58px] items-center justify-around px-2">

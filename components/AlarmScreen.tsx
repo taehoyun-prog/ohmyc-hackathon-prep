@@ -11,10 +11,11 @@ type Props = {
 export function AlarmScreen({ todoText, timeLabel, onDone, onSnooze }: Props) {
   return (
     <div
-      className="flex min-h-screen flex-col items-center justify-center px-s-9 py-s-12 text-center"
+      className="flex h-full flex-col items-center justify-start px-s-9 py-s-12 text-center overflow-y-auto omc-scroll-y"
       style={{ background: "var(--omc-tint-paper)" }}
     >
-      <Avatar size={132} />
+      <div className="flex min-h-full flex-col items-center justify-center w-full">
+        <Avatar size={132} />
 
       <p
         className="mt-s-9 mb-s-7"
@@ -82,11 +83,12 @@ export function AlarmScreen({ todoText, timeLabel, onDone, onSnooze }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-s-5">
-        <Button onClick={onDone}>다 했어요</Button>
-        <Button onClick={onSnooze} variant="ghost">
-          30분 뒤에 다시 확인해요
-        </Button>
+        <div className="flex flex-col items-center gap-s-5">
+          <Button onClick={onDone}>다 했어요</Button>
+          <Button onClick={onSnooze} variant="ghost">
+            30분 뒤에 다시 확인해요
+          </Button>
+        </div>
       </div>
     </div>
   );

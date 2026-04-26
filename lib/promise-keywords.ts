@@ -14,13 +14,30 @@ const PROMISE_PATTERNS: RegExp[] = [
   /(해야\s*돼|해야지|해야겠|해야겠다)/,
   /(하기로|먹기로|가기로|만나기로|보기로)/,
   /(하자|먹자|가자|보자)/,
-  /(잊지\s*마|기억해\s*줘|챙겨\s*줘|알려\s*줘)/,
-  // 명시적 트리거
+  /(잊지\s*마|기억해\s*줘|챙겨\s*줘)/,
+  // 명시적 트리거 (단, 확인/조회 의도가 없을 때만)
   /약속|일정|미팅|회의|운동|루틴/,
+];
+
+const QUERY_PATTERNS: RegExp[] = [
+  /확인/,
+  /보여줘/,
+  /뭐\s*있어/,
+  /뭐지/,
+  /리스트/,
+  /목록/,
+  /알아\?/,
+  /있나\?/,
 ];
 
 export function looksLikePromise(text: string): boolean {
   const trimmed = text.trim();
   if (!trimmed) return false;
+
+  // 조회/확인 의도가 포함되어 있으면 일단 일반 대화(fallbackChat)로 보내서 LLM이 판단하게 함
+  if (QUERY_PATTERNS.some((re) => re.test(trimmed))) {
+    return false;
+  }
+
   return PROMISE_PATTERNS.some((re) => re.test(trimmed));
 }
